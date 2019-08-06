@@ -1,0 +1,13 @@
+language: node_js
+notifications:
+  email: jinchao233@gmail.com
+node_js: stable
+branchs: 
+  only:
+  - master
+install:
+  - npm install
+
+script:
+  - npm run ci
+  
