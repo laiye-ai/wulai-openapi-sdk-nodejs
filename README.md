@@ -1,2 +1,2 @@
 # wulai-openapi-sdk-nodejs
-![build](https://travis-ci.org/laiye-ai/wulai-openapi-sdk-nodejs.svg?branch=master)
+![build](https://travis-ci.org/laiye-ai/wulai-openapi-sdk-nodejs.svg?branch=master) [![codecov](https://codecov.io/gh/laiye-ai/wulai-openapi-sdk-nodejs/branch/master/graph/badge.svg)](https://codecov.io/gh/laiye-ai/wulai-openapi-sdk-nodejs)

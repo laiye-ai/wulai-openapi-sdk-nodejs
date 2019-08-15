@@ -1,7 +1,9 @@
 language: node_js
 notifications:
   email: jinchao233@gmail.com
-node_js: stable
+node_js: 
+  - "10"
+  - "8"
 branchs: 
   only:
   - master
