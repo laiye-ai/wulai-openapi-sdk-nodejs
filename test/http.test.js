@@ -153,7 +153,7 @@ describe("Base Http Request", () => {
     });
     it("should ok with query", async () => {
       const http = new Http();
-      const json = await http.post("/", {age: 3}, "10", {}, {});
+      const json = await http.post("/", { age: 3 }, "10", {}, {});
       expect(json).to.be.eql({ ok: true });
     });
   });
@@ -176,7 +176,7 @@ describe("Base Http Request", () => {
     });
     it("should ok with query", async () => {
       const http = new Http();
-      const json = await http.put("/", {age: 3}, "10", {}, {});
+      const json = await http.put("/", { age: 3 }, "10", {}, {});
       expect(json).to.be.eql({ ok: true });
     });
   });
@@ -199,5 +199,4 @@ describe("Base Http Request", () => {
       expect(json).to.be.eql({ ok: true });
     });
   });
-  
 });
