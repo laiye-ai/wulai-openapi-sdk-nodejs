@@ -17,22 +17,10 @@ function Mock(response, body) {
   });
   after(() => {
     muk.restore();
-    console.log(muk.isMocked(httpx, "request"));
   });
 }
 describe("Base Http Request", () => {
-  describe("Http Request Initial", () => {
-    it("should pass into valid <config.endpoint>", () => {
-      expect(() => {
-        const config = {
-          endpoint: "https://abc.com"
-        };
-        new Http(config);
-        throw new Exception(
-          "<config.endpoint> must starts with 'https://' or 'http://'"
-        );
-      }).to.throw(Exception);
-    });
+  describe("Http class initial", () => {
     it("should ok with <http> protocol", () => {
       const http = new Http({
         endpoint: "http://openapi.wul.ai"
@@ -53,22 +41,163 @@ describe("Base Http Request", () => {
       expect(headers).to.have.keys(["accept", "date"]);
       expect(headers).to.have.property("accept", "application/json");
     });
-  });
-  describe("Http Request Mock", () => {
-    it("should ok with json response", () => {
-      Mock(
-        {
-          statusCode: 200,
-          headers: {
-            "content-type": "application/json"
-          }
-        },
-        JSON.stringify({
-          message: "hello, world",
-          code: 0
-        })
-      );
+    it("should ok with http headers lowerrify", () => {
+      const http = new Http();
+      const headers = http.headersKeyLowerify({
+        Date: "now",
+        ACCEPT: "application/json"
+      });
+      expect(headers).to.have.property("date", "now");
+      expect(headers).to.have.property("accept", "application/json");
     });
-    it()
   });
+  describe("Request(200) with json response should ok", () => {
+    Mock(
+      {
+        statusCode: 200,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({ ok: true })
+    );
+    it("json response ok", async () => {
+      const http = new Http();
+      try {
+        let json = await http.request("GET", "/");
+        expect(json).to.be.an("object");
+      } catch (err) {
+        throw new Exception("reponse parse to json fail");
+      }
+    });
+  });
+  describe("Request(>=400) with json response should ok", () => {
+    Mock(
+      {
+        statusCode: 400,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        code: 50001,
+        message: "登录超时"
+      })
+    );
+    it("json response ok", async () => {
+      const http = new Http();
+      try {
+        let json = await http.request("GET", "/");
+        expect(json).to.be.an("object");
+      } catch (err) {
+        expect(err.code).to.equal(50001);
+        expect(err.message).to.equal("code: 50001, 登录超时");
+      }
+    });
+  });
+  describe("Request with unexpect json string response should ok", () => {
+    Mock(
+      {
+        statusCode: 400,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      "{'age': 3"
+    );
+    it("json response ok", async () => {
+      const http = new Http();
+      try {
+        let json = await http.request("GET", "/");
+        expect(json).to.be.an("object");
+      } catch (err) {
+        expect(err.name).to.equal("Response JSON Format Error.");
+        expect(err.message).to.equal("parse response to json error.");
+      }
+    });
+  });
+  describe("Request with http.get should OK", () => {
+    Mock(
+      {
+        statusCode: 200,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        ok: true
+      })
+    );
+    it("should ok", async () => {
+      const http = new Http();
+      const json = await http.get("/", { age: 3 }, {}, {});
+      expect(json).to.be.eql({ ok: true });
+    });
+  });
+  describe("Request with http.post should OK", () => {
+    Mock(
+      {
+        statusCode: 200,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        ok: true
+      })
+    );
+    it("should ok", async () => {
+      const http = new Http();
+      const json = await http.post("/", {}, "10", {}, {});
+      expect(json).to.be.eql({ ok: true });
+    });
+    it("should ok with query", async () => {
+      const http = new Http();
+      const json = await http.post("/", {age: 3}, "10", {}, {});
+      expect(json).to.be.eql({ ok: true });
+    });
+  });
+  describe("Request with http.put should OK", () => {
+    Mock(
+      {
+        statusCode: 200,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        ok: true
+      })
+    );
+    it("should ok", async () => {
+      const http = new Http();
+      const json = await http.put("/", {}, "10", {}, {});
+      expect(json).to.be.eql({ ok: true });
+    });
+    it("should ok with query", async () => {
+      const http = new Http();
+      const json = await http.put("/", {age: 3}, "10", {}, {});
+      expect(json).to.be.eql({ ok: true });
+    });
+  });
+
+  describe("Request with http.delete should OK", () => {
+    Mock(
+      {
+        statusCode: 200,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        ok: true
+      })
+    );
+    it("should ok", async () => {
+      const http = new Http();
+      const json = await http.delete("/", {}, {}, {});
+      expect(json).to.be.eql({ ok: true });
+    });
+  });
+  
 });
