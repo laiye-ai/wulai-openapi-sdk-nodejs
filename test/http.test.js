@@ -1,6 +1,5 @@
 "use strict";
 const expect = require("chai").expect;
-// const rewire = require("rewire");
 const muk = require("muk");
 const httpx = require("httpx");
 class Exception extends Error {}
@@ -47,11 +46,11 @@ describe("Base Http Request", () => {
         Date: "now",
         ACCEPT: "application/json"
       });
-      expect(headers).to.have.property("date", "now");
+      expect(headers).to.have.keys(["accept", "date"]);
       expect(headers).to.have.property("accept", "application/json");
     });
   });
-  describe("Request(200) with json response should ok", () => {
+  describe("Request(status=200) with json response should ok", () => {
     Mock(
       {
         statusCode: 200,
@@ -71,7 +70,7 @@ describe("Base Http Request", () => {
       }
     });
   });
-  describe("Request(>=400) with json response should ok", () => {
+  describe("Request(status>=400) with json response should ok", () => {
     Mock(
       {
         statusCode: 400,
@@ -81,7 +80,7 @@ describe("Base Http Request", () => {
       },
       JSON.stringify({
         code: 50001,
-        message: "登录超时"
+        error: "登录超时"
       })
     );
     it("json response ok", async () => {
@@ -98,7 +97,7 @@ describe("Base Http Request", () => {
   describe("Request with unexpect json string response should ok", () => {
     Mock(
       {
-        statusCode: 400,
+        statusCode: 200,
         headers: {
           "content-type": "application/json"
         }
@@ -111,8 +110,8 @@ describe("Base Http Request", () => {
         let json = await http.request("GET", "/");
         expect(json).to.be.an("object");
       } catch (err) {
-        expect(err.name).to.equal("Response JSON Format Error.");
-        expect(err.message).to.equal("parse response to json error.");
+        expect(err.name).to.equal("Server Error");
+        expect(err.message).to.equal("response json format error.");
       }
     });
   });
