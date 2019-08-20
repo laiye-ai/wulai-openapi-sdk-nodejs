@@ -37,8 +37,9 @@ describe("Base Http Request", () => {
     it("should ok with <deaultHeaders>", () => {
       const http = new Http();
       const headers = http.defaultHeaders;
-      expect(headers).to.have.keys(["accept", "date"]);
+      expect(headers).to.have.keys(["accept", "content-type"]);
       expect(headers).to.have.property("accept", "application/json");
+      expect(headers).to.have.property("content-type", "application/json");
     });
     it("should ok with http headers lowerrify", () => {
       const http = new Http();
