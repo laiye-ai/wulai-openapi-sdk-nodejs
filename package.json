@@ -1,5 +1,5 @@
 {
-  "name": "@wulaisdk/client",
+  "name": "@laiye-ai/client",
   "version": "1.0.0",
   "description": "Wulai OpenAPI SDK",
   "main": "index.js",
