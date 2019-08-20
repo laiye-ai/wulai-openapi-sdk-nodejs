@@ -1,6 +1,5 @@
 "use strict";
 const expect = require("chai").expect;
-// const rewire = require("rewire");
 const muk = require("muk");
 const httpx = require("httpx");
 class Exception extends Error {}
@@ -30,28 +29,35 @@ describe("Base Http Request", () => {
       expect(http.keepAliveAgent).to.have.property("protocol", "http:");
     });
     it("should ok with <https> protocol", () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       expect(http.endpoint).to.equal("https://openapi.wul.ai");
       expect(http.keepAliveAgent).to.be.an("object");
       expect(http.keepAliveAgent).to.have.property("protocol", "https:");
     });
     it("should ok with <deaultHeaders>", () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const headers = http.defaultHeaders;
-      expect(headers).to.have.keys(["accept", "date"]);
+      expect(headers).to.have.keys(["accept", "content-type"]);
       expect(headers).to.have.property("accept", "application/json");
+      expect(headers).to.have.property("content-type", "application/json");
     });
     it("should ok with http headers lowerrify", () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const headers = http.headersKeyLowerify({
         Date: "now",
         ACCEPT: "application/json"
       });
-      expect(headers).to.have.property("date", "now");
+      expect(headers).to.have.keys(["accept", "date"]);
       expect(headers).to.have.property("accept", "application/json");
     });
   });
-  describe("Request(200) with json response should ok", () => {
+  describe("Request(status=200) with json response should ok", () => {
     Mock(
       {
         statusCode: 200,
@@ -62,7 +68,9 @@ describe("Base Http Request", () => {
       JSON.stringify({ ok: true })
     );
     it("json response ok", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       try {
         let json = await http.request("GET", "/");
         expect(json).to.be.an("object");
@@ -71,7 +79,7 @@ describe("Base Http Request", () => {
       }
     });
   });
-  describe("Request(>=400) with json response should ok", () => {
+  describe("Request(status>=400) with json response should ok", () => {
     Mock(
       {
         statusCode: 400,
@@ -81,11 +89,13 @@ describe("Base Http Request", () => {
       },
       JSON.stringify({
         code: 50001,
-        message: "登录超时"
+        error: "登录超时"
       })
     );
     it("json response ok", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       try {
         let json = await http.request("GET", "/");
         expect(json).to.be.an("object");
@@ -98,7 +108,7 @@ describe("Base Http Request", () => {
   describe("Request with unexpect json string response should ok", () => {
     Mock(
       {
-        statusCode: 400,
+        statusCode: 200,
         headers: {
           "content-type": "application/json"
         }
@@ -106,13 +116,15 @@ describe("Base Http Request", () => {
       "{'age': 3"
     );
     it("json response ok", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       try {
         let json = await http.request("GET", "/");
         expect(json).to.be.an("object");
       } catch (err) {
-        expect(err.name).to.equal("Response JSON Format Error.");
-        expect(err.message).to.equal("parse response to json error.");
+        expect(err.name).to.equal("Server Error");
+        expect(err.message).to.equal("response json format error.");
       }
     });
   });
@@ -129,7 +141,9 @@ describe("Base Http Request", () => {
       })
     );
     it("should ok", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const json = await http.get("/", { age: 3 }, {}, {});
       expect(json).to.be.eql({ ok: true });
     });
@@ -147,12 +161,16 @@ describe("Base Http Request", () => {
       })
     );
     it("should ok", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const json = await http.post("/", {}, "10", {}, {});
       expect(json).to.be.eql({ ok: true });
     });
     it("should ok with query", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const json = await http.post("/", { age: 3 }, "10", {}, {});
       expect(json).to.be.eql({ ok: true });
     });
@@ -170,12 +188,16 @@ describe("Base Http Request", () => {
       })
     );
     it("should ok", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const json = await http.put("/", {}, "10", {}, {});
       expect(json).to.be.eql({ ok: true });
     });
     it("should ok with query", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const json = await http.put("/", { age: 3 }, "10", {}, {});
       expect(json).to.be.eql({ ok: true });
     });
@@ -194,7 +216,9 @@ describe("Base Http Request", () => {
       })
     );
     it("should ok", async () => {
-      const http = new Http();
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
       const json = await http.delete("/", {}, {}, {});
       expect(json).to.be.eql({ ok: true });
     });

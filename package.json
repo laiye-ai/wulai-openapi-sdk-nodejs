@@ -1,5 +1,5 @@
 {
-  "name": "wulai-openapi-sdk-nodejs",
+  "name": "@wulaisdk/client",
   "version": "1.0.0",
   "description": "Wulai OpenAPI SDK",
   "main": "index.js",
@@ -18,8 +18,13 @@
     "Wulai",
     "OpenAPI",
     "SDK",
-    "Node"
+    "NodeSDK"
   ],
+  "files": [
+    "lib",
+    "index.js"
+  ],
+  "types": "lib/client.d.ts",
   "author": "LiJinChao",
   "license": "MIT",
   "bugs": {
@@ -38,6 +43,7 @@
     "rewire": "^4.0.1"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "debug": "^4.1.1",
     "httpx": "^2.2.0"
   }
