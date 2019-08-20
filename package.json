@@ -1,7 +1,7 @@
 {
-  "name": "@laiye-ai/client",
+  "name": "@laiye-ai/sdk-core",
   "version": "1.0.0",
-  "description": "Wulai OpenAPI SDK",
+  "description": "WuLai OpenAPI SDK",
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix lib test",
