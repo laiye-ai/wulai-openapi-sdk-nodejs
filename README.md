@@ -6,7 +6,7 @@
 
 [npm-image]: https://img.shields.io/npm/v/@laiye-ai/sdk-core.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@laiye-ai/sdk-core
-[travis-image]: https://travis-ci.org/laiye-ai/wulai-openapi-sdk-nodejs.svg?branch=master?style=flat-square
+[travis-image]: https://travis-ci.org/laiye-ai/wulai-openapi-sdk-nodejs.svg?branch=master
 [travis-url]: https://travis-ci.org/laiye-ai/wulai-openapi-sdk-nodejs
 [cov-image]: https://codecov.io/gh/laiye-ai/wulai-openapi-sdk-nodejs/branch/master/graph/badge.svg
 [cov-url]: https://codecov.io/gh/laiye-ai/wulai-openapi-sdk-nodejs
