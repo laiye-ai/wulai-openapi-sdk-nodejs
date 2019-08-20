@@ -2,8 +2,8 @@
 const WuLaiClient = require("../index");
 // 初始化 client，pubkey 和 secret 必传
 const client = new WuLaiClient({
-  pubkey: "eIKUn1ftuqREgJjHUWvEZpZntmlUPQB2007e4a782c3c44c410",
-  secret: "8B2pRLvpYPM3txcuobRo"
+  pubkey: "your pubkey",
+  secret: "your secret"
 });
 
 client
@@ -13,8 +13,8 @@ client
         content: "谢谢"
       }
     },
-    user_id: "sdjkfhaksdfjkajsjfdkajsdkf",
-    extra: "dfdsfdfsdfs"
+    user_id: "created user_id",
+    extra: "extra info"
   })
   .then(res => {
     console.log(res);
