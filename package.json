@@ -1,6 +1,6 @@
 {
   "name": "@laiye-ai/sdk-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "WuLai OpenAPI SDK",
   "main": "index.js",
   "scripts": {
