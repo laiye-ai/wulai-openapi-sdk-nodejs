@@ -51,5 +51,5 @@ client
 
 ## License
 
-The MIT License
+This SDK is distributed under the Apache License, Version 2.0, see LICENSE for more information.
 
