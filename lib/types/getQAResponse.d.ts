@@ -27,7 +27,7 @@ interface Response {
 
 interface SimilarResponse {
   url: string;
-  source: string;
+  source: BotSource;
   detail: Detail;
 }
 

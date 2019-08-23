@@ -21,7 +21,7 @@ interface Response {
 
 interface SimilarResponse {
   url: string;
-  source: string;
+  source: BotSource;
   detail: Detail;
 }
 
@@ -36,7 +36,16 @@ interface QA {
 }
 
 interface Task {
-  block_type: string;
+  block_type:
+    | "BLOCK_TYPE_DEFAULT"
+    | "BLOCK_TYPE_MESSAGE" // 消息单元
+    | "BLOCK_TYPE_ASK" // 询问单元
+    | "BLOCK_TYPE_HIDE" // 隐藏单元
+    | "BLOCK_TYPE_LINK" // 跳转单元
+    | "BLOCK_TYPE_ADVANCE_INTERFACE" // 高级接口
+    | "BLOCK_TYPE_INTERFACE" // 接口单元
+    | "BLOCK_TYPE_CALCULATE" // 运算单元
+    | "BLOCK_TYPE_COLLECT"; // 收集单元
   block_id: number;
   task_id: number;
   block_name: string;

@@ -1,36 +1,69 @@
-interface MsgBody {
-  text?: {
+declare type MsgBody =
+  | Text
+  | Image
+  | Custom
+  | Video
+  | File
+  | Voice
+  | Event
+  | ShareLink;
+
+interface Text {
+  text: {
     content: string;
   };
-  image?: {
+}
+interface Image {
+  image: {
     resource_url: string;
   };
-  custom?: {
+}
+interface Custom {
+  custom: {
     content: string;
   };
-  video?: {
+}
+interface Video {
+  video: {
     resource_url: string;
     thumb?: string;
     description?: string;
     title?: string;
   };
-  file?: {
+}
+interface File {
+  file: {
     file_name?: string;
     resource_url: string;
   };
-  voice?: {
+}
+interface Voice {
+  voice: {
     resource_url: string;
     type?: "AMR" | "PCM" | "WAV" | "OPUS" | "SPEEX" | "MP3";
     recognition?: string;
   };
-  event?: {
+}
+
+interface Event {
+  event: {
     fields?: Object;
     event_type?: "EVENT_TYPE_DEFAULT" | "CUSTOM_EVENT" | "ENTER";
   };
-  share_link?: {
+}
+
+interface ShareLink {
+  share_link: {
     description?: string;
     destination_url: string;
     cover_url: string;
     title: string;
   };
 }
+
+declare type BotSource =
+  | "DEFAULT_ANSWER_SOURCE"
+  | "KEYWORD_BOT" // 关键字机器人
+  | "TASK_BOT" // 任务机器人
+  | "QA_BOT" // 问答机器人
+  | "CHITCHAT_BOT"; // 闲聊机器人

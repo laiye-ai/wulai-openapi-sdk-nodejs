@@ -7,7 +7,7 @@ declare interface BotResponseResult {
 interface SuggestedResponse {
   is_send:     boolean;
   bot:         Bot;
-  source:      string;
+  source:      BotSource;
   score:       number;
   response:    Response[];
   quick_reply: string[];
@@ -32,6 +32,6 @@ interface Response {
 
 interface SimilarResponse {
   url:    string;
-  source: string;
+  source: BotSource;
   detail: Bot;
 }
