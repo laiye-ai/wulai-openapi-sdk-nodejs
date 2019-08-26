@@ -1,6 +1,6 @@
 {
   "name": "@laiye-ai/sdk-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "WuLai OpenAPI SDK",
   "main": "index.js",
   "scripts": {
@@ -25,8 +25,8 @@
     "index.js"
   ],
   "types": "lib/client.d.ts",
-  "author": "LiJinChao",
-  "license": "MIT",
+  "author": "LiJinChao lijinchao@laiye.com",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/laiye-ai/wulai-openapi-sdk-nodejs/issues"
   },

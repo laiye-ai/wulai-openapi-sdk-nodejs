@@ -1,43 +1,31 @@
 "use strict";
 const expect = require("chai").expect;
-const muk = require("muk");
-const httpx = require("httpx");
 const rewire = require("rewire");
 const WuLaiSDKClient = require("../lib/client");
+const USER_ID = "wulai_node_sdk_test";
+const PUBKEY = process.env.WULAI_SDK_PUBKEY;
+const SECRET = process.env.WULAI_SDK_SECRET;
 
-function Mock(response, body) {
-  before(() => {
-    muk(httpx, "request", (url, options) => {
-      return Promise.resolve(response);
-    });
-    muk(httpx, "read", (response, encoding) => {
-      return Promise.resolve(body);
-    });
-  });
-  after(() => {
-    muk.restore();
-  });
-}
 describe("WuLai SDK Client", () => {
   describe("Client Class Initial", () => {
     it("expected config should ok", () => {
       const client = new WuLaiSDKClient({
         endpoint: "http://openapi.wul.ai",
-        pubkey: "pubkey",
-        secret: "secret",
+        pubkey: PUBKEY,
+        secret: SECRET,
         apiVersion: "v2"
       });
       expect(client.endpoint).to.equal("http://openapi.wul.ai");
-      expect(client.pubkey).to.equal("pubkey");
-      expect(client.secret).to.equal("secret");
+      expect(client.pubkey).to.equal(PUBKEY);
+      expect(client.secret).to.equal(SECRET);
       expect(client.apiVersion).to.equal("v2");
     });
     it("unexpected <endpoind> exception should ok", () => {
       try {
         new WuLaiSDKClient({
           endpoint: "http:openapi.wul.ai",
-          pubkey: "pubkey",
-          secret: "secret",
+          pubkey: PUBKEY,
+          secret: SECRET,
           apiVersion: "v2"
         });
       } catch (error) {
@@ -49,10 +37,8 @@ describe("WuLai SDK Client", () => {
     it("unexpected <pubkey> exception should ok", () => {
       try {
         new WuLaiSDKClient({
-          endpoint: "https://openapi.wul.ai",
           pubkey: "",
-          secret: "secret",
-          apiVersion: "v2"
+          secret: SECRET
         });
       } catch (error) {
         expect(error.message).to.equal(
@@ -63,10 +49,8 @@ describe("WuLai SDK Client", () => {
     it("unexpected <secret> exception should ok", () => {
       try {
         new WuLaiSDKClient({
-          endpoint: "https://openapi.wul.ai",
-          pubkey: "pubkey",
-          secret: "",
-          apiVersion: "v2"
+          pubkey: PUBKEY,
+          secret: ""
         });
       } catch (error) {
         expect(error.message).to.equal(
@@ -77,49 +61,34 @@ describe("WuLai SDK Client", () => {
   });
 
   describe("Client Common Request", () => {
-    Mock(
-      {
-        statusCode: 200,
-        headers: {
-          "content-type": "application/json"
-        }
-      },
-      JSON.stringify({
-        ok: true
-      })
-    );
     it("expected action and params should ok", async () => {
       let client = new WuLaiSDKClient({
-        endpoint: "https://openapi.wul.ai",
-        pubkey: "pubkey",
-        secret: "secret",
+        pubkey: PUBKEY,
+        secret: SECRET,
         apiVersion: "v2"
       });
-      let response = await client.request("getBotResponse", {
-        msg_body: {
-          text: {
-            content: "hello"
-          }
-        },
-        user_id: "user_id"
+      console.log(client.endpoint);
+      let response = await client.request("userCreate", {
+        nickname: USER_ID,
+        avatar_url:
+          "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
+        user_id: USER_ID
       });
-      expect(response).to.eql({ ok: true });
+      
+      expect(response).to.eql({});
     });
     it("unexpected action should ok", async () => {
       let client = new WuLaiSDKClient({
-        endpoint: "https://openapi.wul.ai",
-        pubkey: "pubkey",
-        secret: "secret",
+        pubkey: PUBKEY,
+        secret: SECRET,
         apiVersion: "v2"
       });
       try {
-        await client.request("getBotResponse", {
-          msg_body: {
-            text: {
-              content: "hello"
-            }
-          },
-          user_id: "user_id"
+        await client.request("userCre", {
+          nickname: USER_ID,
+          avatar_url:
+            "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
+          user_id: USER_ID
         });
       } catch (error) {
         expect(error.message).to.equal("Invalid action, please check it");
@@ -127,54 +96,80 @@ describe("WuLai SDK Client", () => {
     });
   });
   describe("Client OpenAPI", async () => {
-    Mock(
-      {
-        statusCode: 200,
-        headers: {
-          "content-type": "application/json"
-        }
-      },
-      JSON.stringify({
-        ok: true
-      })
-    );
     let client = new WuLaiSDKClient({
       endpoint: "https://openapi.wul.ai",
-      pubkey: "pubkey",
-      secret: "secret",
+      pubkey: PUBKEY,
+      secret: SECRET,
       apiVersion: "v2"
     });
     it("userCreate should ok", async () => {
-      let response = await client.userCreate({});
-      expect(response).to.eql({ ok: true });
+      let response = await client.userCreate({
+        nickname: USER_ID,
+        avatar_url:
+          "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
+        user_id: USER_ID
+      });
+      expect(response).to.eql({});
     });
-    it("userAttributeCreate should ok", async () => {
-      let response = await client.userAttributeCreate({});
-      expect(response).to.eql({ ok: true });
-    });
-    it("userAttributeList should ok", async () => {
-      let response = await client.userAttributeList({});
-      expect(response).to.eql({ ok: true });
-    });
+    // it("userAttributeCreate should ok", async () => {
+    //   let response = await client.userAttributeCreate({});
+    //   expect(response).to.eql({ ok: true });
+    // });
+    // it("userAttributeList should ok", async () => {
+    //   let response = await client.userAttributeList({});
+    //   expect(response).to.eql({ ok: true });
+    // });
     it("getHistoryRecord should ok", async () => {
-      let response = await client.getHistoryRecord({});
-      expect(response).to.eql({ ok: true });
+      let response = await client.getHistoryRecord({
+        direction: "BACKWARD",
+        user_id: USER_ID,
+        num: 10
+      });
+      expect(response).to.have.keys(["msg", "has_more"]);
     });
     it("getBotResponse should ok", async () => {
-      let response = await client.getBotResponse({});
-      expect(response).to.eql({ ok: true });
+      let response = await client.getBotResponse({
+        msg_body: {
+          text: {
+            content: "测试文本消息"
+          }
+        },
+        user_id: USER_ID
+      });
+      expect(response).to.be.a("object");
     });
     it("getKeywordBotResponse should ok", async () => {
-      let response = await client.getKeywordBotResponse({});
-      expect(response).to.eql({ ok: true });
+      let response = await client.getKeywordBotResponse({
+        msg_body: {
+          text: {
+            content: "测试文本消息"
+          }
+        },
+        user_id: USER_ID
+      });
+      expect(response).to.be.a("object");
     });
     it("getTaskBotResponse should ok", async () => {
-      let response = await client.getTaskBotResponse({});
-      expect(response).to.eql({ ok: true });
+      let response = await client.getTaskBotResponse({
+        msg_body: {
+          text: {
+            content: "测试文本消息"
+          }
+        },
+        user_id: USER_ID
+      });
+      expect(response).to.be.a("object");
     });
     it("getQABotResponse should ok", async () => {
-      let response = await client.getQABotResponse({});
-      expect(response).to.eql({ ok: true });
+      let response = await client.getQABotResponse({
+        msg_body: {
+          text: {
+            content: "测试文本消息"
+          }
+        },
+        user_id: USER_ID
+      });
+      expect(response).to.be.a("object");
     });
   });
   describe("Client Private Methods", () => {

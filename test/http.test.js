@@ -101,7 +101,7 @@ describe("Base Http Request", () => {
         expect(json).to.be.an("object");
       } catch (err) {
         expect(err.code).to.equal(50001);
-        expect(err.message).to.equal("code: 50001, 登录超时");
+        expect(err.message).to.equal("status: 400, code: 50001, message: 登录超时");
       }
     });
   });
