@@ -79,7 +79,7 @@ describe("Base Http Request", () => {
       }
     });
   });
-  describe("Request(status>=400) with json response should ok", () => {
+  describe("Request(status >= 400 & status < 500) with client exception should ok", () => {
     Mock(
       {
         statusCode: 400,
@@ -101,7 +101,39 @@ describe("Base Http Request", () => {
         expect(json).to.be.an("object");
       } catch (err) {
         expect(err.code).to.equal(50001);
-        expect(err.message).to.equal("status: 400, code: 50001, message: 登录超时");
+        expect(err.name).to.equal("Client Error");
+        expect(err.message).to.equal(
+          "status: 400, code: 50001, message: 登录超时"
+        );
+      }
+    });
+  });
+  describe("Request(status >= 500) with server exception should ok", () => {
+    Mock(
+      {
+        statusCode: 500,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        code: 50002,
+        error: "服务器异常"
+      })
+    );
+    it("json response ok", async () => {
+      const http = new Http({
+        endpoint: "https://openapi.wul.ai"
+      });
+      try {
+        let json = await http.request("GET", "/");
+        expect(json).to.be.an("object");
+      } catch (err) {
+        expect(err.code).to.equal(50002);
+        expect(err.name).to.equal("Server Error");
+        expect(err.message).to.equal(
+          "status: 500, code: 50002, message: 服务器异常"
+        );
       }
     });
   });

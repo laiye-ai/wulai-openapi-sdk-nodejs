@@ -67,7 +67,6 @@ describe("WuLai SDK Client", () => {
         secret: SECRET,
         apiVersion: "v2"
       });
-      console.log(client.endpoint);
       let response = await client.request("userCreate", {
         nickname: USER_ID,
         avatar_url:
@@ -92,6 +91,25 @@ describe("WuLai SDK Client", () => {
         });
       } catch (error) {
         expect(error.message).to.equal("Invalid action, please check it");
+      }
+    });
+    it("request timeout exception should ok", async () => {
+      let client = new WuLaiSDKClient({
+        pubkey: PUBKEY,
+        secret: SECRET,
+        apiVersion: "v2"
+      }, {
+        timeout: 50
+      });
+      try {
+        await client.request("userCreate", {
+          nickname: USER_ID,
+          avatar_url:
+            "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
+          user_id: USER_ID
+        });
+      } catch (error) {
+        expect(error.name).to.equal("RequestTimeoutError");
       }
     });
   });

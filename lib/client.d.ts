@@ -1,3 +1,5 @@
+import { Agent } from "http";
+
 export = Client;
 
 type Action =
@@ -9,9 +11,17 @@ type Action =
   | "getKeywordBotResponse"
   | "getTaskBotResponse"
   | "getQABotResponse";
-
+type HttpOpts = {
+  method: "POST";
+  data: string | Buffer;
+  headers: object;
+  timeout: number;
+  agent: Agent;
+  beforeRequest: Function;
+  compression: boolean
+};
 declare class Client {
-  constructor(config: Client.Config);
+  constructor(config: Client.Config, httpOpts: HttpOpts);
   /**
    * 创建用户
    * @param {UserCreateParams} params post body
