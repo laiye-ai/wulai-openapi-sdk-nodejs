@@ -1,4 +1,5 @@
-declare interface TaskBotResponseResult {
+import { MsgBody } from "./common";
+export interface TaskBotResponseResult {
   is_dispatch: boolean;
   msg_id: string;
   task_suggested_response: TaskSuggestedResponse[];

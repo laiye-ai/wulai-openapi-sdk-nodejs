@@ -1,4 +1,5 @@
-declare interface KeywordBotResponseResult {
+import { MsgBody } from "./common";
+export interface KeywordBotResponseResult {
   is_dispatch: boolean;
   msg_id: string;
   keyword_suggested_response: KeywordSuggestedResponse[];

@@ -1,11 +1,12 @@
-declare interface GetHistoryRecordParams {
+import { MsgBody } from "./common";
+export interface GetHistoryRecordParams {
   direction: string;
   msg_id: string;
   user_id: string;
   num: number;
 }
 
-declare interface GetHistoryRecordResult {
+export interface GetHistoryRecordResult {
   msg: Msg[];
   has_more: boolean;
 }

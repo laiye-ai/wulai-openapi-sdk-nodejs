@@ -1,11 +1,28 @@
 "use strict";
 const expect = require("chai").expect;
 const rewire = require("rewire");
+const muk = require("muk");
+const httpx = require("httpx");
 const WuLaiSDKClient = require("../lib/client");
+const { statusMap } = require("../lib/exception");
+
 const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
+function Mock(response, body) {
+  before(() => {
+    muk(httpx, "request", (url, options) => {
+      return Promise.resolve(response);
+    });
+    muk(httpx, "read", (response, encoding) => {
+      return Promise.resolve(body);
+    });
+  });
+  after(() => {
+    muk.restore();
+  });
+}
 describe("WuLai SDK Client", () => {
   describe("Client Class Initial", () => {
     it("expected config should ok", () => {
@@ -58,9 +75,158 @@ describe("WuLai SDK Client", () => {
         );
       }
     });
+    it("unexpected <apiVersion> exception should ok", () => {
+      try {
+        new WuLaiSDKClient({
+          pubkey: PUBKEY,
+          secret: SECRET,
+          apiVersion: "v"
+        });
+      } catch (error) {
+        expect(error.message).to.equal("Invalid api version, please check it.");
+      }
+    });
+    it("unexpected <options> exception should ok", () => {
+      try {
+        new WuLaiSDKClient({
+          pubkey: PUBKEY,
+          secret: SECRET,
+          apiVersion: "v2",
+          options: "hello"
+        });
+      } catch (error) {
+        expect(error.message).to.equal(
+          "Invalid http options type, please check it."
+        );
+      }
+    });
   });
-
-  describe("Client Common Request", () => {
+  describe("Client Error (status >= 400 & status < 500) with exception should ok", () => {
+    Mock(
+      {
+        statusCode: 400,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        code: 50001,
+        error: "登录超时"
+      })
+    );
+    it("json response ok", async () => {
+      const client = new WuLaiSDKClient({
+        pubkey: PUBKEY,
+        secret: SECRET
+      });
+      try {
+        let json = await client.getBotResponse({
+          msg_body: {
+            text: {
+              content: "hello"
+            }
+          }
+        });
+        expect(json).to.be.an("object");
+      } catch (err) {
+        expect(err.name).to.equal(statusMap[400]);
+        expect(err.message).to.equal(
+          "status: 400, code: 50001, message: 登录超时"
+        );
+      }
+    });
+  });
+  describe("Server Error (status >= 500) with exception should ok", () => {
+    Mock(
+      {
+        statusCode: 500,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        code: 50002,
+        error: "服务器异常"
+      })
+    );
+    it("json response ok", async () => {
+      const client = new WuLaiSDKClient({
+        pubkey: PUBKEY,
+        secret: SECRET,
+        options: {
+          maxRetry: 3
+        }
+      });
+      try {
+        let json = await client.getBotResponse({
+          msg_body: {
+            text: {
+              content: "hello"
+            }
+          }
+        });
+        expect(json).to.be.an("object");
+      } catch (err) {
+        expect(err.name).to.equal(statusMap[500]);
+        expect(err.message).to.equal(
+          "status: 500, code: 50002, message: 服务器异常"
+        );
+      }
+    });
+  });
+  describe("Request with unexpect json string response should ok", () => {
+    Mock(
+      {
+        statusCode: 200,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      "{'age': 3"
+    );
+    it("json response ok", async () => {
+      const client = new WuLaiSDKClient({
+        pubkey: PUBKEY,
+        secret: SECRET,
+        options: {
+          maxRetry: 5
+        }
+      });
+      try {
+        let json = await client.getBotResponse({
+          msg_body: {
+            text: {
+              content: "hello"
+            }
+          }
+        });
+        expect(json).to.be.an("object");
+      } catch (err) {
+        expect(err.name).to.equal("Server Error");
+        expect(err.message).to.equal("response json format error.");
+      }
+    });
+  });
+  describe("unexpected http options should ok", () => {
+    it("exception should ok", async () => {
+      let client = new WuLaiSDKClient({
+        pubkey: PUBKEY,
+        secret: SECRET,
+        apiVersion: "v2"
+      });
+      try {
+        await client.request("userCreate", {
+          nickname: USER_ID,
+          avatar_url:
+            "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
+          user_id: USER_ID
+        }, null, "hello");
+      } catch (error) {
+        expect(error.message).to.equal("Invalid http options type, please check it.");
+      }
+    });
+  });
+  describe("Client Common Request", async () => {
     it("expected action and params should ok", async () => {
       let client = new WuLaiSDKClient({
         pubkey: PUBKEY,
@@ -73,7 +239,7 @@ describe("WuLai SDK Client", () => {
           "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
         user_id: USER_ID
       });
-      
+
       expect(response).to.eql({});
     });
     it("unexpected action should ok", async () => {
@@ -93,14 +259,18 @@ describe("WuLai SDK Client", () => {
         expect(error.message).to.equal("Invalid action, please check it");
       }
     });
+    
     it("request timeout exception should ok", async () => {
-      let client = new WuLaiSDKClient({
-        pubkey: PUBKEY,
-        secret: SECRET,
-        apiVersion: "v2"
-      }, {
-        timeout: 50
-      });
+      let client = new WuLaiSDKClient(
+        {
+          pubkey: PUBKEY,
+          secret: SECRET,
+          apiVersion: "v2"
+        },
+        {
+          timeout: 100
+        }
+      );
       try {
         await client.request("userCreate", {
           nickname: USER_ID,
@@ -130,13 +300,32 @@ describe("WuLai SDK Client", () => {
       expect(response).to.eql({});
     });
     // it("userAttributeCreate should ok", async () => {
-    //   let response = await client.userAttributeCreate({});
+    //   let response = await client.userAttributeCreate({
+    //     user_attribute_user_attribute_value: [
+    //       {
+    //         user_attribute: {
+    //           id: "string"
+    //         },
+    //         user_attribute_value: {
+    //           name: "string"
+    //         }
+    //       }
+    //     ],
+    //     user_id: USER_ID
+    //   });
+
     //   expect(response).to.eql({ ok: true });
     // });
-    // it("userAttributeList should ok", async () => {
-    //   let response = await client.userAttributeList({});
-    //   expect(response).to.eql({ ok: true });
-    // });
+    it("userAttributeList should ok", async () => {
+      let response = await client.userAttributeList({
+        filter: {
+          use_in_user_attribute_group: true
+        },
+        page: 1,
+        page_size: 1
+      });
+      expect(response).to.be.an("object");
+    });
     it("getHistoryRecord should ok", async () => {
       let response = await client.getHistoryRecord({
         direction: "BACKWARD",
@@ -188,6 +377,29 @@ describe("WuLai SDK Client", () => {
         user_id: USER_ID
       });
       expect(response).to.be.a("object");
+    });
+    it("receiveUserMessage should ok", async () => {
+      let response = await client.receiveUserMessage({
+        msg_body: {
+          text: {
+            content: "测试文本消息"
+          }
+        },
+        user_id: USER_ID
+      });
+      expect(response).to.be.have.key("msg_id");
+    });
+    it("syncUserMessage should ok", async () => {
+      let response = await client.syncUserMessage({
+        msg_body: {
+          text: {
+            content: "测试文本消息"
+          }
+        },
+        user_id: USER_ID,
+        msg_ts: Date.parse(new Date())
+      });
+      expect(response).to.be.have.key("msg_id");
     });
   });
   describe("Client Private Methods", () => {

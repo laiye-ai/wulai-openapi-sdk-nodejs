@@ -1,4 +1,4 @@
-declare interface UserAttributeCreateParams {
+export interface UserAttributeCreateParams {
   user_attribute_user_attribute_value: UserAttributeUserAttributeValue[];
   user_id: string;
 }

@@ -1,4 +1,5 @@
-declare interface BotResponseResult {
+import { MsgBody } from "./common";
+export interface BotResponseResult {
   is_dispatch:        boolean;
   suggested_response: SuggestedResponse[];
   msg_id:             string;

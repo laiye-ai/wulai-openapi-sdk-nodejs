@@ -1,4 +1,4 @@
-declare type MsgBody =
+export type MsgBody =
   | Text
   | Image
   | Custom
@@ -61,7 +61,7 @@ interface ShareLink {
   };
 }
 
-declare type BotSource =
+export type BotSource =
   | "DEFAULT_ANSWER_SOURCE"
   | "KEYWORD_BOT" // 关键字机器人
   | "TASK_BOT" // 任务机器人
