@@ -47,8 +47,7 @@ type HttpOpts = {
   compression: boolean;
   maxRetry: number;
 };
-type Log = {
-  debug: boolean,
+type LogOptions = {
   dir: string,
   configure: {
     appenders: Object,
@@ -64,8 +63,15 @@ declare class Client {
     pubkey: string;
     secret: string;
     options: HttpOpts;
-    logOpts: Log
+    debug: boolean;
   });
+  /**
+   * 日志配置
+   *
+   * @static
+   * @memberof Client
+   */
+  static LoggerConfig: (debug: boolean, options: LogOptions) => void;
   /**
    * 创建用户
    * @param {UserCreateParams} params post body

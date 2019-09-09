@@ -36,17 +36,6 @@ describe("Base Http Request", () => {
       expect(http.keepAliveAgent).to.be.an("object");
       expect(http.keepAliveAgent).to.have.property("protocol", "https:");
     });
-    it("should ok with http headers lowerrify", () => {
-      const http = new Http({
-        endpoint: "https://openapi.wul.ai"
-      });
-      const headers = http.headersKeyLowerify({
-        Date: "now",
-        ACCEPT: "application/json"
-      });
-      expect(headers).to.have.keys(["accept", "date"]);
-      expect(headers).to.have.property("accept", "application/json");
-    });
   });
   describe("Request(status=200) with json response should ok", () => {
     Mock(

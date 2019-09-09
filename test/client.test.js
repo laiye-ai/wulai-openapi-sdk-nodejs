@@ -5,10 +5,11 @@ const muk = require("muk");
 const httpx = require("httpx");
 const WuLaiSDKClient = require("../lib/client");
 const { statusMap } = require("../lib/exception");
-
 const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
+
+WuLaiSDKClient.LoggerConfig(true);
 
 function Mock(response, body) {
   before(() => {
@@ -155,7 +156,8 @@ describe("WuLai SDK Client", () => {
         secret: SECRET,
         options: {
           maxRetry: 3
-        }
+        },
+        debug: true
       });
       try {
         let json = await client.getBotResponse({
