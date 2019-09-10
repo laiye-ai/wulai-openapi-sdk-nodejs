@@ -9,7 +9,7 @@ const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
-WuLaiSDKClient.LoggerConfig(true);
+// WuLaiSDKClient.LoggerConfig(false);
 
 function Mock(response, body) {
   before(() => {
@@ -132,7 +132,7 @@ describe("WuLai SDK Client", () => {
       } catch (err) {
         expect(err.name).to.equal(statusMap[400]);
         expect(err.message).to.equal(
-          "status: 400, code: 50001, message: 登录超时"
+          `status: 400, body: {"code":50001,"error":"登录超时"}`
         );
       }
     });
@@ -171,7 +171,7 @@ describe("WuLai SDK Client", () => {
       } catch (err) {
         expect(err.name).to.equal(statusMap[500]);
         expect(err.message).to.equal(
-          "status: 500, code: 50002, message: 服务器异常"
+          `status: 500, body: {"code":50002,"error":"服务器异常"}`
         );
       }
     });
@@ -217,12 +217,12 @@ describe("WuLai SDK Client", () => {
         apiVersion: "v2"
       });
       try {
-        await client.request("userCreate", {
+        await client.request("POST", "/v2/user/create", null,  {
           nickname: USER_ID,
           avatar_url:
             "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
           user_id: USER_ID
-        }, null, "hello");
+        }, "hello");
       } catch (error) {
         expect(error.message).to.equal("Invalid http options type, please check it.");
       }
@@ -235,7 +235,7 @@ describe("WuLai SDK Client", () => {
         secret: SECRET,
         apiVersion: "v2"
       });
-      let response = await client.request("userCreate", {
+      let response = await client.request("POST", "/v2/user/create", null, {
         nickname: USER_ID,
         avatar_url:
           "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
@@ -244,21 +244,21 @@ describe("WuLai SDK Client", () => {
 
       expect(response).to.eql({});
     });
-    it("unexpected action should ok", async () => {
+    it("unexpected request url should ok", async () => {
       let client = new WuLaiSDKClient({
         pubkey: PUBKEY,
         secret: SECRET,
         apiVersion: "v2"
       });
       try {
-        await client.request("userCre", {
+        await client.request("POST", "/v2/user/cre", null,  {
           nickname: USER_ID,
           avatar_url:
             "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
           user_id: USER_ID
         });
       } catch (error) {
-        expect(error.message).to.equal("Invalid action, please check it");
+        expect(error.name).to.equal("找不到指定的资源，或者请求由于未公开的原因（例如白名单）而被拒绝。");
       }
     });
     
@@ -267,14 +267,14 @@ describe("WuLai SDK Client", () => {
         {
           pubkey: PUBKEY,
           secret: SECRET,
-          apiVersion: "v2"
-        },
-        {
-          timeout: 100
+          apiVersion: "v2",
+          options: {
+            timeout: 50
+          }
         }
       );
       try {
-        await client.request("userCreate", {
+        await client.userCreate({
           nickname: USER_ID,
           avatar_url:
             "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",

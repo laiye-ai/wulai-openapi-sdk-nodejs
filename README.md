@@ -47,25 +47,10 @@ client
   });
 ```
 
-## API
+<a href="./docs/API.md">已完成 API</a>
 
-`client.userCreate` 创建用户
 
-`client.userAttributeCreate` 添加用户属性值
 
-`client.userAttributeList` 获取用户属性值列表
-
-`client.getHistoryRecord` 查询历史消息
-
-`client.getBotResponse` 获取机器人回复
-
-`client.getKeywordBotResponse` 获取关键字机器人回复
-
-`client.getTaskBotResponse` 获取任务机器人回复
-
-`client.getQABotResponse` 获取问答机器人回复
-
-`client.request` CommonRequest接口
 
 ## License
 
