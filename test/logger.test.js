@@ -16,8 +16,10 @@ describe("logger should ok", () => {
     });
   });
   describe("config should ok", () => {
-    it("debug [true] should ok", () => {
-      let logger = createLogger(true);
+    it("stdout should ok", () => {
+      let logger = createLogger(true, {
+        stdout: true
+      });
       expect(logger).to.be.an("object");
     });
   });

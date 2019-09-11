@@ -46,6 +46,26 @@ client
     console.log(res);
   });
 ```
+### SDK初始化配置
+`new WulaiClient([, options])`
+```js
+new WulaiClient({
+    pubkey: "string", // 机器人 pubkey，required
+    secret: "string", // 机器人 secret，required
+    endpoint: "string", // base url，optional
+    apiVersion: "v2", // 版本，optional
+    options: { // optional
+        timeout: 6000, // 超时时间，单位ms，默认 6000ms，optional
+        agent: "<Http Agent>", // http or https 连接池，optional
+        compression: "boolean", // 服务端返回数据是否压缩，optional
+        maxRetry: "number", // 网络请求异常，重试次数，默认 3 次，设置 1 为取消，optional
+        headers: "object" // 请求头，optional
+    }
+});
+```
+* **pubkey** String-[吾来机器人平台](https://platform.wul.ai)-渠道设置获取 pubkey
+* **secret** String-[吾来机器人平台](https://platform.wul.ai)-渠道设置获取 secret
+* **endpoint** String-base url
 
 <a href="./docs/API.md">已实现 API</a>
 
