@@ -9,7 +9,11 @@ const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
-// WuLaiSDKClient.LoggerConfig(true);
+WuLaiSDKClient.LoggerConfig(true, {
+  stdout: true,
+  fileout: true,
+  filename: "logs/test.log"
+});
 
 function Mock(response, body) {
   before(() => {
@@ -192,6 +196,7 @@ describe("WuLai SDK Client", () => {
       const client = new WuLaiSDKClient({
         pubkey: PUBKEY,
         secret: SECRET,
+        debug: true,
         options: {
           maxRetry: 3
         }
@@ -269,7 +274,7 @@ describe("WuLai SDK Client", () => {
         secret: SECRET,
         apiVersion: "v2"
       });
-      let response = await client.request("POST", "/v2/user/create", null, {
+      let response = await client.request("POST", "/v2/user/create", {username: "jj"}, {
         nickname: USER_ID,
         avatar_url:
           "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
@@ -335,23 +340,23 @@ describe("WuLai SDK Client", () => {
       });
       expect(response).to.eql({});
     });
-    // it("userAttributeCreate should ok", async () => {
-    //   let response = await client.userAttributeCreate({
-    //     user_attribute_user_attribute_value: [
-    //       {
-    //         user_attribute: {
-    //           id: "string"
-    //         },
-    //         user_attribute_value: {
-    //           name: "string"
-    //         }
-    //       }
-    //     ],
-    //     user_id: USER_ID
-    //   });
+    it("API.createUserAttribute should ok", async () => {
+      let response = await client.createUserAttribute({
+        user_attribute_user_attribute_value: [
+          {
+            user_attribute: {
+              id: "100000"
+            },
+            user_attribute_value: {
+              name: "男"
+            }
+          }
+        ],
+        user_id: USER_ID
+      });
 
-    //   expect(response).to.eql({ ok: true });
-    // });
+      expect(response).to.eql({});
+    });
     it("API.userAttributeList should ok", async () => {
       let response = await client.listUserAttribute({
         filter: {

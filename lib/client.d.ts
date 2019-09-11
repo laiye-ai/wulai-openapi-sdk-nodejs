@@ -47,15 +47,12 @@ type HttpOpts = {
 	compression: boolean;
 	maxRetry: number;
 };
-type LogOptions = {
-	dir: string,
-	configure: {
-		appenders: Object,
-		categories: {
-			default: Object,
-		}
-	}
+type LogConfig = {
+	stdout: boolean,
+	fileout: boolean,
+	filename: string
 }
+type Method = "POST" | "GET" | "DELETE" | "PUT"
 export = Client;
 
 declare class Client {
@@ -66,7 +63,7 @@ declare class Client {
 	 * @static
 	 * @memberof Client
 	 */
-	static LoggerConfig: (debug: boolean, configure: Configuration) => void;
+	static LoggerConfig: (debug: boolean, config: LogConfig) => void;
 	/**
 	 * 创建用户
 	 * @param {CreateUserParams} params post body
@@ -105,7 +102,7 @@ declare class Client {
 	 * @param {BotResponseParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	getBotResponse: (params: BotResponseParams) => Promise<BotResponseResult>;
+	getBotResponse: (params: BotResponseParams, options: HttpOpts) => Promise<BotResponseResult>;
 	/**
 	 * 获取关键机器人回复
 	 * @param {BotResponseParams} params post body
@@ -156,7 +153,7 @@ declare class Client {
 	 *
 	 * @memberof Client
 	 */
-	request: (method: string, url: string, query: object, body: object, options: HttpOpts) => Promise<any>;
+	request: (method: Method, url: string, query: object, body: object, options: HttpOpts) => Promise<any>;
 }
 declare namespace Client {
 	export interface Config {
