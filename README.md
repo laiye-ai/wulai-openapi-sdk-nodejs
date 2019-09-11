@@ -63,9 +63,6 @@ new WulaiClient({
     }
 });
 ```
-* **pubkey** String-[吾来机器人平台](https://platform.wul.ai)-渠道设置获取 pubkey
-* **secret** String-[吾来机器人平台](https://platform.wul.ai)-渠道设置获取 secret
-* **endpoint** String-base url
 
 <a href="./docs/API.md">已实现 API</a>
 

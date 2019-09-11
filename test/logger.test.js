@@ -22,5 +22,12 @@ describe("logger should ok", () => {
       });
       expect(logger).to.be.an("object");
     });
+    it("fileout should ok", () => {
+      let logger = createLogger(true, {
+        stdout: true,
+        fileout: true
+      });
+      expect(logger).to.be.an("object");
+    });
   });
 });
