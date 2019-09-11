@@ -1,4 +1,4 @@
-export interface UserAttributeListParams {
+export interface ListUserAttributeParams {
 	filter?: Filter;
 	page: number;
 	page_size: number;
@@ -8,7 +8,7 @@ interface Filter {
 	use_in_user_attribute_group: boolean;
 }
 
-export interface UserAttributeValueResult {
+export interface ListUserAttributeResult {
 	page_count: number;
 	user_attribute_user_attribute_values: UserAttributeUserAttributeValue[];
 }

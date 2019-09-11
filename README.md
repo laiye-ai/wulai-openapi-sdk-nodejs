@@ -47,9 +47,7 @@ client
   });
 ```
 
-<a href="./docs/API.md">已完成 API</a>
-
-
+<a href="./docs/API.md">已实现 API</a>
 
 
 ## License

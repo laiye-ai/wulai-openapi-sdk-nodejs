@@ -1,4 +1,4 @@
-import { MsgBody } from "./common";
+import { MsgBody, BotSource } from "./common";
 export interface BotResponseResult {
 	is_dispatch: boolean;
 	suggested_response: SuggestedResponse[];

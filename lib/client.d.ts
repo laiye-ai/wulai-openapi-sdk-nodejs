@@ -1,17 +1,17 @@
 import { Agent } from "http";
-import { UserCreateParams } from "./types/userCreate";
-import { UserAttributeCreateParams } from "./types/userAttributeCreate";
+import { CreateUserParams } from "./types/createUser";
+import { CreateUserAttributeParams } from "./types/userAttributeCreate";
 import {
-	UserAttributeListParams,
-	UserAttributeValueResult
+	ListUserAttributeParams,
+	ListUserAttributeResult
 } from "./types/userAttributeList";
 import { BotResponseResult } from "./types/getBotResponse";
 import { KeywordBotResponseResult } from "./types/getKeywordBotResponse";
 import { QABotResponseResult } from "./types/getQAResponse";
 import { BotResponseParams } from "./types/botResponseParams";
 import {
-	GetHistoryRecordParams,
-	GetHistoryRecordResult
+	GetMsgHistoryParams,
+	GetMsgHistoryResult
 } from "./types/getHistoryRecord";
 import { MsgBody, BotSource } from "./types/common";
 import { TaskBotResponseResult } from "./types/getTaskBotResponse";
@@ -23,6 +23,7 @@ import {
 	ReceiveUserMessageParams,
 	ReceiveUserMessageResult
 } from "./types/receiveUserMessage";
+import { Configuration } from "log4js";
 
 type Action =
 	| "userCreate"
@@ -65,40 +66,40 @@ declare class Client {
 	 * @static
 	 * @memberof Client
 	 */
-	static LoggerConfig: (debug: boolean, options: LogOptions) => void;
+	static LoggerConfig: (debug: boolean, configure: Configuration) => void;
 	/**
 	 * 创建用户
-	 * @param {UserCreateParams} params post body
+	 * @param {CreateUserParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	userCreate: (params: UserCreateParams, options: HttpOpts) => Promise<{}>;
+	createUser: (params: CreateUserParams, options: HttpOpts) => Promise<{}>;
 	/**
 	 * 给用户添加属性值
-	 * @param {UserAttributeCreateParams} params post body
+	 * @param {CreateUserAttributeParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	userAttributeCreate: (
-		params: UserAttributeCreateParams,
+	createUserAttribute: (
+		params: CreateUserAttributeParams,
 		options: HttpOpts
 	) => Promise<{}>;
 	/**
 	 * 获取用户属性列表
-	 * @param {UserAttributeListParams} params post body
+	 * @param {ListUserAttributeParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	userAttributeList: (
-		params: UserAttributeListParams,
+	listUserAttribute: (
+		params: ListUserAttributeParams,
 		options: HttpOpts
-	) => Promise<UserAttributeValueResult>;
+	) => Promise<ListUserAttributeResult>;
 	/**
 	 * 查询历史消息
-	 * @param {GetHistoryRecordParams} params post body
+	 * @param {GetMsgHistoryParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	getHistoryRecord: (
-		params: GetHistoryRecordParams,
+	getMsgHistory: (
+		params: GetMsgHistoryParams,
 		options: HttpOpts
-	) => Promise<GetHistoryRecordResult>;
+	) => Promise<GetMsgHistoryResult>;
 	/**
 	 * 获取机器人回复
 	 * @param {BotResponseParams} params post body
@@ -110,7 +111,7 @@ declare class Client {
 	 * @param {BotResponseParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	getKeywordBotResponse: (
+	getKeywordResponse: (
 		params: BotResponseParams,
 		options: HttpOpts
 	) => Promise<KeywordBotResponseResult>;
@@ -119,7 +120,7 @@ declare class Client {
 	 * @param {BotResponseParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	getTaskBotResponse: (
+	getTaskResponse: (
 		params: BotResponseParams,
 		options: HttpOpts
 	) => Promise<TaskBotResponseResult>;
@@ -128,7 +129,7 @@ declare class Client {
 	 * @param {BotResponseParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	getQABotResponse: (
+	getQaResponse: (
 		params: BotResponseParams,
 		options: HttpOpts
 	) => Promise<QABotResponseResult>;
@@ -137,7 +138,7 @@ declare class Client {
 	 * @param {ReceiveUserMessageParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	receiveUserMessage: (
+	receiveMessage: (
 		params: ReceiveUserMessageParams,
 		options: HttpOpts
 	) => Promise<ReceiveUserMessageResult>;
@@ -146,7 +147,7 @@ declare class Client {
 	 * @param {SyncUserMessageParams} params post body
 	 * @param {HttpOpts} options http options
 	 */
-	syncUserMessage: (
+	syncMessage: (
 		params: SyncUserMessageParams,
 		options: HttpOpts
 	) => Promise<SyncUserMessageResult>;

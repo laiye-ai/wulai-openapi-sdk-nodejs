@@ -9,7 +9,7 @@ const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
-// WuLaiSDKClient.LoggerConfig(false);
+// WuLaiSDKClient.LoggerConfig(true);
 
 function Mock(response, body) {
   before(() => {
@@ -156,8 +156,7 @@ describe("WuLai SDK Client", () => {
         secret: SECRET,
         options: {
           maxRetry: 3
-        },
-        debug: true
+        }
       });
       try {
         let json = await client.getBotResponse({
@@ -173,6 +172,41 @@ describe("WuLai SDK Client", () => {
         expect(err.message).to.equal(
           `status: 500, body: {"code":50002,"error":"服务器异常"}`
         );
+      }
+    });
+  });
+  describe("Server Error (status other) with exception should ok", () => {
+    Mock(
+      {
+        statusCode: 301,
+        headers: {
+          "content-type": "application/json"
+        }
+      },
+      JSON.stringify({
+        code: 50002,
+        error: "服务器异常"
+      })
+    );
+    it("exception should ok", async () => {
+      const client = new WuLaiSDKClient({
+        pubkey: PUBKEY,
+        secret: SECRET,
+        options: {
+          maxRetry: 3
+        }
+      });
+      try {
+        let json = await client.getBotResponse({
+          msg_body: {
+            text: {
+              content: "hello"
+            }
+          }
+        });
+        expect(json).to.be.an("object");
+      } catch (err) {
+        expect(err.name).to.equal("Unknown Server Error");
       }
     });
   });
@@ -217,7 +251,7 @@ describe("WuLai SDK Client", () => {
         apiVersion: "v2"
       });
       try {
-        await client.request("POST", "/v2/user/create", null,  {
+        await client.request("POST", "/v2/user/create", null, {
           nickname: USER_ID,
           avatar_url:
             "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
@@ -251,7 +285,7 @@ describe("WuLai SDK Client", () => {
         apiVersion: "v2"
       });
       try {
-        await client.request("POST", "/v2/user/cre", null,  {
+        await client.request("POST", "/v2/user/cre", null, {
           nickname: USER_ID,
           avatar_url:
             "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
@@ -261,7 +295,7 @@ describe("WuLai SDK Client", () => {
         expect(error.name).to.equal("找不到指定的资源，或者请求由于未公开的原因（例如白名单）而被拒绝。");
       }
     });
-    
+
     it("request timeout exception should ok", async () => {
       let client = new WuLaiSDKClient(
         {
@@ -274,7 +308,7 @@ describe("WuLai SDK Client", () => {
         }
       );
       try {
-        await client.userCreate({
+        await client.createUser({
           nickname: USER_ID,
           avatar_url:
             "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
@@ -292,8 +326,8 @@ describe("WuLai SDK Client", () => {
       secret: SECRET,
       apiVersion: "v2"
     });
-    it("userCreate should ok", async () => {
-      let response = await client.userCreate({
+    it("API.createUser should ok", async () => {
+      let response = await client.createUser({
         nickname: USER_ID,
         avatar_url:
           "https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/rc-upload-1521637604400-2-login_logo.png",
@@ -318,8 +352,8 @@ describe("WuLai SDK Client", () => {
 
     //   expect(response).to.eql({ ok: true });
     // });
-    it("userAttributeList should ok", async () => {
-      let response = await client.userAttributeList({
+    it("API.userAttributeList should ok", async () => {
+      let response = await client.listUserAttribute({
         filter: {
           use_in_user_attribute_group: true
         },
@@ -328,15 +362,15 @@ describe("WuLai SDK Client", () => {
       });
       expect(response).to.be.an("object");
     });
-    it("getHistoryRecord should ok", async () => {
-      let response = await client.getHistoryRecord({
+    it("API.getMsgHistory should ok", async () => {
+      let response = await client.getMsgHistory({
         direction: "BACKWARD",
         user_id: USER_ID,
         num: 10
       });
       expect(response).to.have.keys(["msg", "has_more"]);
     });
-    it("getBotResponse should ok", async () => {
+    it("API.getBotResponse should ok", async () => {
       let response = await client.getBotResponse({
         msg_body: {
           text: {
@@ -347,8 +381,8 @@ describe("WuLai SDK Client", () => {
       });
       expect(response).to.be.a("object");
     });
-    it("getKeywordBotResponse should ok", async () => {
-      let response = await client.getKeywordBotResponse({
+    it("API.getKeywordResponse should ok", async () => {
+      let response = await client.getKeywordResponse({
         msg_body: {
           text: {
             content: "测试文本消息"
@@ -358,8 +392,8 @@ describe("WuLai SDK Client", () => {
       });
       expect(response).to.be.a("object");
     });
-    it("getTaskBotResponse should ok", async () => {
-      let response = await client.getTaskBotResponse({
+    it("API.getTaskResponse should ok", async () => {
+      let response = await client.getTaskResponse({
         msg_body: {
           text: {
             content: "测试文本消息"
@@ -369,8 +403,8 @@ describe("WuLai SDK Client", () => {
       });
       expect(response).to.be.a("object");
     });
-    it("getQABotResponse should ok", async () => {
-      let response = await client.getQABotResponse({
+    it("API.getQaResponse should ok", async () => {
+      let response = await client.getQaResponse({
         msg_body: {
           text: {
             content: "测试文本消息"
@@ -380,8 +414,8 @@ describe("WuLai SDK Client", () => {
       });
       expect(response).to.be.a("object");
     });
-    it("receiveUserMessage should ok", async () => {
-      let response = await client.receiveUserMessage({
+    it("API.receiveMessage should ok", async () => {
+      let response = await client.receiveMessage({
         msg_body: {
           text: {
             content: "测试文本消息"
@@ -391,8 +425,8 @@ describe("WuLai SDK Client", () => {
       });
       expect(response).to.be.have.key("msg_id");
     });
-    it("syncUserMessage should ok", async () => {
-      let response = await client.syncUserMessage({
+    it("API.syncMessage should ok", async () => {
+      let response = await client.syncMessage({
         msg_body: {
           text: {
             content: "测试文本消息"

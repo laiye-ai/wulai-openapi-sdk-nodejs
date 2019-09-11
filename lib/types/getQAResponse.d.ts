@@ -1,4 +1,4 @@
-import { MsgBody } from "./common";
+import { MsgBody, BotSource } from "./common";
 export interface QABotResponseResult {
 	is_dispatch: boolean;
 	msg_id: string;
