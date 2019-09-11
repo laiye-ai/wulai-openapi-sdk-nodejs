@@ -54,6 +54,7 @@ new WulaiClient({
     secret: "string", // 机器人 secret，required
     endpoint: "string", // base url，optional
     apiVersion: "v2", // 版本，optional
+    debug: "boolean", // 是否开启调试模式，开启后 sdk 将对所有请求进行日志输出，默认为 stdout
     options: { // optional
         timeout: 6000, // 超时时间，单位ms，默认 6000ms，optional
         agent: "<Http Agent>", // http or https 连接池，optional

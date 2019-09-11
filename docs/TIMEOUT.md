@@ -1,6 +1,7 @@
-# 设置接口超时时间
+# 设置接口请求超时时间
 sdk默认超时时间为: 6000 ms
-### 1. sdk初始化设置超时时间
+
+### sdk初始化设置超时时间
 初始化配置超时时间，将对所有请求都有效，可以作为默认超时时间进行配置。
 ```js
 new WulaiClient({
@@ -12,8 +13,8 @@ new WulaiClient({
 });
 ```
 
-### 2. 单个API设置超时时间
-单个API设置超时时间，只对被设置的API接口请求起作用，不影响其他请求。
+### API设置超时时间
+API请求方法设置超时时间，只对被设置的API接口请求起作用，不影响其他请求。
 ```js
 const params = {
     msg_body: {
@@ -28,7 +29,7 @@ client.getBotResponse(params, {
 });
 ```
 
-### 3. CommonRequest 设置超时时间
+### CommonRequest 设置超时时间
 `CommonRequest` 设置超时时间，只对被设置接口请求起作用，不影响其他请求。
 ```js
 const params = {

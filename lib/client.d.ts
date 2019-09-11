@@ -38,8 +38,6 @@ type Action =
 	| "syncUserMessage";
 
 type HttpOpts = {
-	method: "POST";
-	data: string | Buffer;
 	headers: object;
 	timeout: number;
 	agent: Agent;
