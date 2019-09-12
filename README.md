@@ -70,7 +70,14 @@ new WulaiClient({
 });
 ```
 
-### 相关文档
+### 常见场景及调用示例
+
+<a href="./examples/scene1">基础对话</a>
+
+<a href="./examples/scene2">个性化对话</a>
+
+
+### SDK 相关说明文档
 
 <a href="./docs/COMMON.md">SDK-CommonRequest</a>
 
@@ -80,6 +87,7 @@ new WulaiClient({
 
 <a href="./docs/API.md">SDK-已实现API</a>
 
+<a href="./docs/TODO.md">SDK-待实现API</a>
 
 ## License
 
