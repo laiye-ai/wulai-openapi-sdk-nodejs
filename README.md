@@ -22,7 +22,7 @@ yarn 安装
 yarn add @laiye-ai/sdk-core -S
 ```
 
-## 使用条件
+## 使用环境
 
 Node.js >= 8.x
 
