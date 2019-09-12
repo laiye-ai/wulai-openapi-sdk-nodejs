@@ -2,3 +2,4 @@
 *.min.js
 node_modules/*
 assets/scripts/lib/*
+logs

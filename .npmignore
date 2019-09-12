@@ -3,3 +3,5 @@ coverage
 .idea/
 .nyc_output/
 .DS_Store
+logs
+demo.js
