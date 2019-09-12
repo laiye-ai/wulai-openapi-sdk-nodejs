@@ -9,12 +9,6 @@ const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
-WuLaiSDKClient.LogConfig(true, {
-  stdout: true,
-  fileout: true,
-  filename: "logs/test.log"
-});
-
 function Mock(response, body) {
   before(() => {
     muk(httpx, "request", (url, options) => {
@@ -441,6 +435,44 @@ describe("WuLai SDK Client", () => {
         msg_ts: Date.parse(new Date())
       });
       expect(response).to.be.have.key("msg_id");
+    });
+  });
+  describe("API.logConfig should ok", () => {
+    const client = new WuLaiSDKClient({
+      pubkey: PUBKEY,
+      secret: SECRET,
+      debug: true
+    });
+    it("debug open should ok", async () => {
+      client.logConfig();
+    });
+    it("stdout and fileout close should ok", async () => {
+      client.logConfig({
+        stdout: false,
+        fileout: false
+      });
+      await client.getBotResponse({
+        msg_body: {
+          text: {
+            content: "你好"
+          }
+        },
+        user_id: USER_ID
+      });
+    });
+    it("stdout and fileout open should ok", async () => {
+      client.logConfig({
+        stdout: true,
+        fileout: true
+      });
+      await client.getBotResponse({
+        msg_body: {
+          text: {
+            content: "你好"
+          }
+        },
+        user_id: USER_ID
+      });
     });
   });
   describe("Client Private Methods", () => {

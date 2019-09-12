@@ -61,7 +61,7 @@ declare class Client {
 	 * @static
 	 * @memberof Client
 	 */
-	static LogConfig: (debug: boolean, config: LogConfig) => void;
+	logConfig: (config: LogConfig) => void;
 	/**
 	 * 创建用户
 	 * @param {CreateUserParams} params post body
