@@ -54,7 +54,7 @@ new WulaiClient({
     secret: "string", // 机器人 secret，required
     endpoint: "string", // base url，optional
     apiVersion: "v2", // 版本，optional
-    debug: "boolean", // 是否开启调试模式，开启后 sdk 将对所有请求进行日志输出，默认为 stdout
+    debug: "boolean", // 是否开启调试模式，开启后 sdk 将对所有请求进行日志输出，默认为 stdout 输出模式
     options: { // optional
         timeout: 6000, // 超时时间，单位ms，默认 6000ms，optional
         agent: "<Http Agent>", // http or https 连接池，optional
@@ -65,7 +65,15 @@ new WulaiClient({
 });
 ```
 
-<a href="./docs/API.md">已实现 API</a>
+### 相关文档
+
+<a href="./docs/COMMON.md">CommonRequest使用</a>
+
+<a href="./docs/LOG.md">SDK 日志配置</a>
+
+<a href="./docs/TIMEOUT.md">SDK 请求超时时间设置</a>
+
+<a href="./docs/API.md">SDK 已实现 API</a>
 
 
 ## License

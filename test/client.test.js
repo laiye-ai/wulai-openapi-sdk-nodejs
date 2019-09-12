@@ -9,7 +9,7 @@ const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
-WuLaiSDKClient.LoggerConfig(true, {
+WuLaiSDKClient.LogConfig(true, {
   stdout: true,
   fileout: true,
   filename: "logs/test.log"

@@ -1,6 +1,6 @@
 # CommonRequest 泛用型API
 
-当您要使用的某个API接口，目前SDK没有提供时，可以采用泛用型的API调用方式（CommonRequest）。
+当您要使用的某个API接口，当前SDK版本没有提供时，可以采用泛用型的API调用方式（CommonRequest）。
 使用 CommonRequest 调用方式可实现任意 Open API 接口的调用。
 
 ### 使用方式
