@@ -12,9 +12,14 @@
 [cov-url]: https://codecov.io/gh/laiye-ai/wulai-openapi-sdk-nodejs
 
 ## 安装
+npm 安装
 
 ```js
-npm install @laiye-ai/sdk-core --save
+npm install @laiye-ai/sdk-core -S
+```
+yarn 安装
+```
+yarn add @laiye-ai/sdk-core -S
 ```
 
 ## 使用条件
@@ -67,13 +72,13 @@ new WulaiClient({
 
 ### 相关文档
 
-<a href="./docs/COMMON.md">CommonRequest使用</a>
+<a href="./docs/COMMON.md">SDK-CommonRequest</a>
 
-<a href="./docs/LOG.md">SDK 日志配置</a>
+<a href="./docs/LOG.md">SDK-日志配置</a>
 
-<a href="./docs/TIMEOUT.md">SDK 请求超时时间设置</a>
+<a href="./docs/TIMEOUT.md">SDK-设置请求超时时间</a>
 
-<a href="./docs/API.md">SDK 已实现 API</a>
+<a href="./docs/API.md">SDK-已实现API</a>
 
 
 ## License
