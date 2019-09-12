@@ -18,7 +18,7 @@ npm 安装
 npm install @laiye-ai/sdk-core -S
 ```
 yarn 安装
-```
+```js
 yarn add @laiye-ai/sdk-core -S
 ```
 
