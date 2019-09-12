@@ -22,9 +22,24 @@ const client = new WuLaiClient({
 
 `client.logConfig(options)`
 * **options** Object - Optional
+  * **format** String - 如 "{endpoint} {uri} {method} {headers}"
   * **stdout** Boolean - 是否开启 stdout 输出模式，默认开启
   * **fileout** Boolean - 是否开启日志文件输出模式，默认关闭
   * **filename** String - 日志文件存储路径， 默认路径 'logs/wulai-sdk.log'
+
+### 格式变量
+
+日志内容支持以下变量替换：
+
+| 变量      |   描述       |
+|----------|-------------|
+| {endpoint}     | base url |
+| {uri}          | 请求的URI |
+| {req_header}      | 请求头 |
+| {method}       | 请求方法 |
+| {status}       | 响应的状态代码 |
+| {req_body}     | 请求主体 |
+| {res_body}     | 响应主体 |
 
 ### 如何使用
 

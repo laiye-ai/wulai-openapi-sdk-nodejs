@@ -129,9 +129,6 @@ describe("WuLai SDK Client", () => {
         expect(json).to.be.an("object");
       } catch (err) {
         expect(err.name).to.equal(statusMap[400]);
-        expect(err.message).to.equal(
-          `status: 400, body: {"code":50001,"error":"登录超时"}`
-        );
       }
     });
   });
@@ -167,9 +164,6 @@ describe("WuLai SDK Client", () => {
         expect(json).to.be.an("object");
       } catch (err) {
         expect(err.name).to.equal(statusMap[500]);
-        expect(err.message).to.equal(
-          `status: 500, body: {"code":50002,"error":"服务器异常"}`
-        );
       }
     });
   });
@@ -190,7 +184,6 @@ describe("WuLai SDK Client", () => {
       const client = new WuLaiSDKClient({
         pubkey: PUBKEY,
         secret: SECRET,
-        debug: true,
         options: {
           maxRetry: 3
         }
@@ -223,6 +216,7 @@ describe("WuLai SDK Client", () => {
       const client = new WuLaiSDKClient({
         pubkey: PUBKEY,
         secret: SECRET,
+        debug: true,
         options: {
           maxRetry: 5
         }
@@ -237,8 +231,7 @@ describe("WuLai SDK Client", () => {
         });
         expect(json).to.be.an("object");
       } catch (err) {
-        expect(err.name).to.equal("Server Error");
-        expect(err.message).to.equal("response json format error.");
+        expect(err.name).to.equal("response json format error.");
       }
     });
   });
