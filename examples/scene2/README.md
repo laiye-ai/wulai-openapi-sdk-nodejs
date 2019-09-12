@@ -12,6 +12,9 @@
 #### 对接步骤：
 
 调用 createUser 方法，传入 user_id，创建用户；
+
 调用 user/user-attribute/create 接口，传入 user_id 和该用户的用户属性；
+
 调用 msg/bot-response 接口，传入 user_id 和该用户发来的消息；
+
 机器人会返回1~10条可能的回复，按照置信度从高到低排序。调用方可根据自己业务需要，依据置信度参数 score 的高低或者 is_send 的值，选择一条或多条回复。
