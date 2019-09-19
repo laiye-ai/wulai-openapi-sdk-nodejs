@@ -1,0 +1,24 @@
+apps:
+  - script: app.js
+    name: "sdk-async-scene"
+    instances: 1
+    exec_mode: cluster
+    watch: false
+    max_memory_restart: "1G"
+    out_file: ./logs/out.log
+    error_file: ./logs/err.log
+    log_date_format: "YYYY-MM-DD HH:mm"
+    merge_logs: true
+    env:
+      NODE_ENV: "development"
+    env_production:
+      NODE_ENV: "production"
+deploy:
+  production:
+    user: "root"
+    host: "39.96.21.121"
+    ref: "origin/master"
+    ssh_options: "StrictHostKeyChecking=no"
+    repo: "git@gitlab.com:laiye-shanghai-tech/2019/PM/node-sdk-async-scene.git"
+    path: "/home/works/lijinchao/sdk-async-scene"
+    post-deploy: "npm install && pm2 reload ecosystem.config.yml --env production"

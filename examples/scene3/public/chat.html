@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>SDK异步场景DEMO
+        <</title> <meta name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                /* box-sizing: border-box; */
+            }
+
+            html {
+                height: 100%;
+            }
+
+            body {
+                font: 13px Helvetica, Arial;
+                height: 100%;
+            }
+
+            form {
+                /* background: #000; */
+                /* padding: 3px; */
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+
+            form input {
+                border: 0;
+                padding: 10px;
+                width: calc(100% - 80px);
+                border: 1px solid #eee;
+                box-sizing: border-box;
+                /* margin-right: .5%; */
+            }
+
+            form button {
+                width: 80px;
+                text-align: center;
+                background: rgb(130, 224, 255);
+                border: none;
+                padding: 10px 0;
+            }
+
+            #messages {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                height: calc(100% - 50px);
+                overflow-y: scroll;
+                /* padding-bottom: 60px; */
+            }
+
+            #messages li {
+                padding: 10px 20px;
+            }
+
+            #messages li.left {
+                text-align: left;
+            }
+
+            #messages li.right {
+                text-align: right;
+            }
+
+            #messages li:nth-child(odd) {
+                background: #eee;
+            }
+        </style>
+</head>
+
+<body>
+    <ul id="messages"></ul>
+    <form action="">
+        <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    <script src="/sdk-chat/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        $(function () {
+            var userid = 'wulai-chat-' + Date.parse(new Date()) / 1000;
+            var socket = io.connect(location.protocol + "//" + location.host, {
+                query: 'uid=' + userid,
+                path: "/sdk-chat"
+            });
+            socket.on('disconnect', (reason) => {
+                // 断开重连
+                if (reason === 'io server disconnect') {
+                    socket.connect();
+                }
+            });
+            var isConnected = false
+            socket.on("connect", function () {
+                console.log('建立连接')
+                if (!isConnected) {
+                    $('form').submit(function () {
+                        console.log('发送消息: ' + $('#m').val());
+                        $('#messages').append($('<li class="right">').text($('#m').val()));
+                        scrollToBottom()
+                        socket.emit('sdk-message', userid, $('#m').val(), function (data) {
+                            console.log(data);
+                        });
+                        $('#m').val('');
+                        $('#m').blur();
+                        return false;
+                    });
+                    socket.on('sdk-message', function (msg) {
+                        console.log(msg);
+                        $('#messages').append($('<li class="left">').text(msg.msg_body.text.content));
+                        scrollToBottom()
+                    });
+                }
+                isConnected = true;
+            })
+            function scrollToBottom() {
+                var scrollHeight = $("#messages").prop("scrollHeight");
+                $("#messages").animate({ scrollTop: scrollHeight }, 300);
+            }
+
+        });
+    </script>
+</body>
+
+</html>
