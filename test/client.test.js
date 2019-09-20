@@ -4,7 +4,6 @@ const rewire = require("rewire");
 const muk = require("muk");
 const httpx = require("httpx");
 const WuLaiSDKClient = require("../lib/client");
-const { statusMap } = require("../lib/exception");
 const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
@@ -128,7 +127,7 @@ describe("WuLai SDK Client", () => {
                 });
                 expect(json).to.be.an("object");
             } catch (err) {
-                expect(err.name).to.equal(statusMap[400]);
+                expect(err.name).to.equal("Client Error");
             }
         });
     });
@@ -163,7 +162,7 @@ describe("WuLai SDK Client", () => {
                 });
                 expect(json).to.be.an("object");
             } catch (err) {
-                expect(err.name).to.equal(statusMap[500]);
+                expect(err.name).to.equal("Server Error");
             }
         });
     });
@@ -198,7 +197,7 @@ describe("WuLai SDK Client", () => {
                 });
                 expect(json).to.be.an("object");
             } catch (err) {
-                expect(err.name).to.equal("Unknown Server Error");
+                expect(err.name).to.equal("Server Error");
             }
         });
     });
@@ -231,7 +230,7 @@ describe("WuLai SDK Client", () => {
                 });
                 expect(json).to.be.an("object");
             } catch (err) {
-                expect(err.name).to.equal("response json format error.");
+                expect(err.name).to.equal("Server Error");
             }
         });
     });
@@ -250,7 +249,7 @@ describe("WuLai SDK Client", () => {
                     user_id: USER_ID
                 }, "hello");
             } catch (error) {
-                expect(error.message).to.equal("Invalid http options type, please check it.");
+                expect(error.name).to.equal("Client Error");
             }
         });
     });
@@ -284,7 +283,7 @@ describe("WuLai SDK Client", () => {
                     user_id: USER_ID
                 });
             } catch (error) {
-                expect(error.name).to.equal("找不到指定的资源，或者请求由于未公开的原因（例如白名单）而被拒绝。");
+                expect(error.name).to.equal("Client Error");
             }
         });
 
