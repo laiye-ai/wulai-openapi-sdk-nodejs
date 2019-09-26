@@ -1,3 +1,4 @@
+import { Agent } from "http";
 export type MsgBody =
     | Text
     | Image
@@ -60,7 +61,19 @@ interface ShareLink {
         title: string;
     };
 }
-
+export interface BotResponseBody {
+    msg_body: MsgBody;
+    user_id: string;
+    extra: string;
+}
+export type HttpOpts = {
+    headers: object;
+    timeout: number;
+    agent: Agent;
+    beforeRequest: Function;
+    compression: boolean;
+    maxRetry: number;
+};
 export type BotSource =
     | "DEFAULT_ANSWER_SOURCE"
     | "KEYWORD_BOT" // 关键字机器人
