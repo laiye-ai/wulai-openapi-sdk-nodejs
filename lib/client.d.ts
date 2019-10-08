@@ -1,61 +1,29 @@
 import { Agent } from "http";
-import { CreateUserParams } from "./types/createUser";
-import { CreateUserAttributeParams } from "./types/userAttributeCreate";
-import {
-    ListUserAttributeParams,
-    ListUserAttributeResult
-} from "./types/userAttributeList";
-import { BotResponseResult } from "./types/getBotResponse";
-import { KeywordBotResponseResult } from "./types/getKeywordBotResponse";
-import { QABotResponseResult } from "./types/getQAResponse";
-import { BotResponseParams } from "./types/botResponseParams";
-import {
-    GetMsgHistoryParams,
-    GetMsgHistoryResult
-} from "./types/getHistoryRecord";
-import { MsgBody, BotSource } from "./types/common";
-import { TaskBotResponseResult } from "./types/getTaskBotResponse";
-import {
-    SyncUserMessageParams,
-    SyncUserMessageResult
-} from "./types/syncUserMessage";
-import {
-    ReceiveUserMessageParams,
-    ReceiveUserMessageResult
-} from "./types/receiveUserMessage";
+import { HttpOpts } from "./types/common"
 import { Configuration } from "log4js";
+import { Knowledge, UpdateKnowledge, UpdateUserAttributeGroupAnswer } from './types/Knowledge';
+import { User } from "./types/User";
+import { Dialogue } from "./types/Dialogue";
 
-type Action =
-    | "userCreate"
-    | "userAttributeCreate"
-    | "userAttributeList"
-    | "getHistoryRecord"
-    | "getBotResponse"
-    | "getKeywordBotResponse"
-    | "getTaskBotResponse"
-    | "getQABotResponse"
-    | "receiveUserMessage"
-    | "syncUserMessage";
-
-type HttpOpts = {
-    headers: object;
-    timeout: number;
-    agent: Agent;
-    beforeRequest: Function;
-    compression: boolean;
-    maxRetry: number;
-};
 type LogConfig = {
     format: string,
     stdout: boolean,
     fileout: boolean,
     filename: string
 }
-type Method = "POST" | "GET" | "DELETE" | "PUT"
-export = Client;
+type Method = "POST" | "GET" | "DELETE" | "PUT";
 
+interface ClientConfig {
+    endpoint: string;
+    apiVersion: "v2";
+    pubkey: string;
+    secret: string;
+    options: HttpOpts;
+    debug: boolean;
+}
+export = Client;
 declare class Client {
-    constructor(config: Client.Config);
+    constructor(config: ClientConfig);
 	/**
 	 * 日志配置
 	 *
@@ -64,103 +32,184 @@ declare class Client {
 	 */
     logConfig: (config: LogConfig) => void;
 	/**
-	 * 创建用户
-	 * @param {CreateUserParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    createUser: (params: CreateUserParams, options: HttpOpts) => Promise<{}>;
+     * 创建用户
+     *
+     * @type {User.CreateUser}
+     * @memberof Client
+     */
+    createUser: User.CreateUser;
 	/**
-	 * 给用户添加属性值
-	 * @param {CreateUserAttributeParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    createUserAttribute: (
-        params: CreateUserAttributeParams,
-        options: HttpOpts
-    ) => Promise<{}>;
+     * 给用户添加属性值
+     *
+     * @type {User.CreateUserAttribute}
+     * @memberof Client
+     */
+    createUserAttribute: User.CreateUserAttribute;
 	/**
-	 * 获取用户属性列表
-	 * @param {ListUserAttributeParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    listUserAttribute: (
-        params: ListUserAttributeParams,
-        options: HttpOpts
-    ) => Promise<ListUserAttributeResult>;
+     * 获取用户属性列表
+     *
+     * @type {User.ListUserAttribute}
+     * @memberof Client
+     */
+    listUserAttribute: User.ListUserAttribute;
 	/**
-	 * 查询历史消息
-	 * @param {GetMsgHistoryParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    getMsgHistory: (
-        params: GetMsgHistoryParams,
-        options: HttpOpts
-    ) => Promise<GetMsgHistoryResult>;
+     * 查询历史消息
+     *
+     * @type {Dialogue.GetMsgHistory}
+     * @memberof Client
+     */
+    getMsgHistory: Dialogue.GetMsgHistory;
 	/**
-	 * 获取机器人回复
-	 * @param {BotResponseParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    getBotResponse: (params: BotResponseParams, options: HttpOpts) => Promise<BotResponseResult>;
+     * 获取机器人回复
+     *
+     * @type {Dialogue.GetBotResponse}
+     * @memberof Client
+     */
+    getBotResponse: Dialogue.GetBotResponse;
 	/**
-	 * 获取关键机器人回复
-	 * @param {BotResponseParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    getKeywordResponse: (
-        params: BotResponseParams,
-        options: HttpOpts
-    ) => Promise<KeywordBotResponseResult>;
+     * 获取关键机器人回复
+     *
+     * @type {Dialogue.GetKeywordResponse}
+     * @memberof Client
+     */
+    getKeywordResponse: Dialogue.GetKeywordResponse;
 	/**
-	 * 获取任务机器人回复
-	 * @param {BotResponseParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    getTaskResponse: (
-        params: BotResponseParams,
-        options: HttpOpts
-    ) => Promise<TaskBotResponseResult>;
+     * 获取任务机器人回复
+     *
+     * @type {Dialogue.GetTaskResponse}
+     * @memberof Client
+     */
+    getTaskResponse: Dialogue.GetTaskResponse;
 	/**
-	 * 获取问答机器人回复
-	 * @param {BotResponseParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    getQaResponse: (
-        params: BotResponseParams,
-        options: HttpOpts
-    ) => Promise<QABotResponseResult>;
+     * 获取问答机器人回复
+     *
+     * @type {Dialogue.GetQaResponse}
+     * @memberof Client
+     */
+    getQaResponse: Dialogue.GetQaResponse;
 	/**
-	 * 接收用户发的消息
-	 * @param {ReceiveUserMessageParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    receiveMessage: (
-        params: ReceiveUserMessageParams,
-        options: HttpOpts
-    ) => Promise<ReceiveUserMessageResult>;
+     * 接收用户发的消息
+     *
+     * @type {Dialogue.ReceiveMessage}
+     * @memberof Client
+     */
+    receiveMessage: Dialogue.ReceiveMessage;
 	/**
-	 * 同步发给用户的消息
-	 * @param {SyncUserMessageParams} params post body
-	 * @param {HttpOpts} options http options
-	 */
-    syncMessage: (
-        params: SyncUserMessageParams,
-        options: HttpOpts
-    ) => Promise<SyncUserMessageResult>;
-	/**
-	 * CommonRequest
-	 *
-	 * @memberof Client
-	 */
+     * 同步发给用户的消息
+     *
+     * @type {Dialogue.SyncMessage}
+     * @memberof Client
+     */
+    syncMessage: Dialogue.SyncMessage;
+    /**
+     * 获取相似问列表
+     *
+     * @type {Knowledge.ListSimilarQuestions}
+     * @memberof Client
+     */
+    listSimilarQuestions: Knowledge.ListSimilarQuestions;
+    /**
+     * 删除相似问
+     *
+     * @type {Knowledge.DeleteSimilarQuestion}
+     * @memberof Client
+     */
+    deleteSimilarQuestion: Knowledge.DeleteSimilarQuestion;
+    /**
+     * 更新属性组
+     *
+     * @type {Knowledge.UpdateUserAttributeGroup}
+     * @memberof Client
+     */
+    updateUserAttributeGroup: Knowledge.UpdateUserAttributeGroup;
+    /**
+     * 创建相似问
+     *
+     * @type {Knowledge.CreateSimilarQuestion}
+     * @memberof Client
+     */
+    createSimilarQuestion: Knowledge.CreateSimilarQuestion;
+    /**
+     * 更新相似问
+     *
+     * @type {Knowledge.UpdateSimilarQuestion}
+     * @memberof Client
+     */
+    updateSimilarQuestion: Knowledge.UpdateSimilarQuestion;
+    /**
+     * 查询知识点列表
+     *
+     * @type {Knowledge.ListKnowledgeItems}
+     * @memberof Client
+     */
+    listKnowledgeItems: Knowledge.ListKnowledgeItems;
+    /**
+     * 创建知识点
+     *
+     * @type {Knowledge.CreateKnowledgeTagKnowledge}
+     * @memberof Client
+     */
+    createKnowledgeTagKnowledge: Knowledge.CreateKnowledgeTagKnowledge;
+    /**
+     * 查询知识点分类列表
+     *
+     * @type {Knowledge.ListKnowledgeTags}
+     * @memberof Client
+     */
+    listKnowledgeTags: Knowledge.ListKnowledgeTags;
+    /**
+     * 更新知识点
+     *
+     * @type {Knowledge.UpdateKnowledge}
+     * @memberof Client
+     */
+    updateKnowledge: Knowledge.UpdateKnowledge;
+    /**
+     * 删除属性组回复
+     *
+     * @type {Knowledge.DeleteUserAttributeGroupAnswer}
+     * @memberof Client
+     */
+    deleteUserAttributeGroupAnswer: Knowledge.DeleteUserAttributeGroupAnswer;
+    /**
+     * 创建属性组回复
+     *
+     * @type {Knowledge.CreateUserAttributeGroupAnswer}
+     * @memberof Client
+     */
+    createUserAttributeGroupAnswer: Knowledge.CreateUserAttributeGroupAnswer;
+    /**
+     * 更新属性组回复
+     *
+     * @type {Knowledge.UpdateUserAttributeGroupAnswer}
+     * @memberof Client
+     */
+    updateUserAttributeGroupAnswer: Knowledge.UpdateUserAttributeGroupAnswer;
+    /**
+     * 查询属性组及属性列表
+     *
+     * @type {Knowledge.ListUserAttributeGroupItems}
+     * @memberof Client
+     */
+    listUserAttributeGroupItems: Knowledge.ListUserAttributeGroupItems;
+    /**
+     * 查询属性组回复列表
+     *
+     * @type {Knowledge.ListUserAttributeGroupAnswers}
+     * @memberof Client
+     */
+    listUserAttributeGroupAnswers: Knowledge.ListUserAttributeGroupAnswers;
+    /**
+     * 创建属性组
+     *
+     * @type {Knowledge.CreateUserAttributeGroup}
+     * @memberof Client
+     */
+    createUserAttributeGroup: Knowledge.CreateUserAttributeGroup;
+    /**
+     * CommonRequest
+     *
+     * @memberof Client
+     */
     request: (method: Method, url: string, query: object, body: object, options: HttpOpts) => Promise<any>;
-}
-declare namespace Client {
-    export interface Config {
-        endpoint: string;
-        apiVersion: "v2";
-        pubkey: string;
-        secret: string;
-        options: HttpOpts;
-        debug: boolean;
-    }
 }

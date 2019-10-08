@@ -1,41 +1,5 @@
 # 待实现API
 
-### 对话类
-
-给用户发消息 `sendMessage`
-
-### 知识点类
-
-删除相似问 `deleteSimilarQuestion`
-
-更新属性组 `updateUserAttributeGroup`
-
-查询相似问列表 `listSimilarQuestions`
-
-创建相似问 `createSimilarQuestion`
-
-查询知识点列表 `listKnowledgeItems`
-
-更新知识点 `updateKnowledge`
-
-查询知识点分类列表 `listKnowledgeTags`
-
-删除属性组回复 `deleteUserAttributeGroupAnswer`
-
-创建属性组回复 `createUserAttributeGroupAnswer`
-
-创建知识点 `createKnowledgeTagKnowledge`
-
-更新属性组回复 `updateUserAttributeGroupAnswer`
-
-查询属性组及属性列表 `listUserAttributeGroupItems`
-
-查询属性组回复列表 `listUserAttributeGroupAnswers`
-
-更新相似问 `UpdateSimilarQuestion`
-
-创建属性组 `createUserAttributeGroup`
-
 ### 统计类
 
 查询问答召回数统计列表（知识点粒度，日报） `listQARecallDailyKnowledgeStats`
