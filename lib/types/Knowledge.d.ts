@@ -1,5 +1,5 @@
 
-import { HttpOpts } from './common'
+import { HttpOpts, MsgBody } from './common';
 
 // 获取相似问列表 interface
 interface SimilarQuestion {
@@ -84,12 +84,6 @@ interface UserAttributeClass {
 interface CreateSimilarQuestionBody {
     similar_question: SimilarQuestion;
 }
-
-interface SimilarQuestion {
-    knowledge_id: string;
-    question: string;
-    id: string;
-}
 // 查询知识点列表 interface
 interface ListKnowledgeItemsBody {
     page: number;
@@ -169,6 +163,74 @@ interface UpdateKnowledgeBody {
 interface UpdateKnowledgeResponse {
     knowledge: KnowledgeClass;
 }
+
+// 删除属性组回复 interface
+interface DeleteUserAttributeGroupAnswerBody {
+    id: string;
+}
+
+// 创建/更新属性组回复 interface
+interface CreateUserAttributeGroupAnswerBody {
+    user_attribute_group_answer: UserAttributeGroupAnswer;
+}
+interface CreateUserAttributeGroupAnswerResponse extends CreateUserAttributeGroupAnswerBody { }
+interface UserAttributeGroupAnswer {
+    answer: Answer;
+    user_attribute_group_id: string;
+}
+interface Answer {
+    knowledge_id: string;
+    msg_body: MsgBody;
+    id: string;
+}
+
+// 查询属性组及属性列表 interface
+interface ListUserAttributeGroupItemsBody {
+    page: number;
+    page_size: number;
+}
+interface ListUserAttributeGroupItemsResponse {
+    page_count: number;
+    user_attribute_group_items: UserAttributeGroupItem[];
+}
+
+interface UserAttributeGroupItem {
+    user_attribute_user_attribute_values: UserAttributeUserAttributeValueRes[];
+    user_attribute_group: UserAttributeGroup;
+}
+
+interface UserAttributeUserAttributeValueRes {
+    user_attribute: UserAttributeClass;
+    user_attribute_value: UserAttributeGroup;
+}
+
+// 查询属性组回复列表 interface
+interface ListUserAttributeGroupAnswersBody {
+    filter: Filter;
+    page: number;
+    page_size: number;
+}
+
+interface Filter {
+    knowledge_id: string;
+    user_attribute_group_id: string;
+}
+
+interface ListUserAttributeGroupAnswersResponse {
+    user_attribute_group_answers: UserAttributeGroupAnswer[];
+    page_count: number;
+}
+
+export interface UserAttributeGroupAnswer {
+    answer: Answer;
+    user_attribute_group_id: string;
+}
+
+export interface Answer {
+    knowledge_id: string;
+    msg_body: MsgBody;
+    id: string;
+}
 export declare namespace Knowledge {
     /**
 	 * 获取相似问列表
@@ -195,6 +257,12 @@ export declare namespace Knowledge {
 	 */
     export type CreateSimilarQuestion = (body: CreateSimilarQuestionBody, options: HttpOpts) => Promise<CreateSimilarQuestionBody>;
     /**
+	 * 更新相似问
+	 * @param {CreateSimilarQuestionBody} body post body
+	 * @param {HttpOpts} options http options
+	 */
+    export type UpdateSimilarQuestion = (body: CreateSimilarQuestionBody, options: HttpOpts) => Promise<CreateSimilarQuestionBody>;
+    /**
 	 * 查询知识点列表
 	 * @param {ListKnowledgeItemsBody} body post body
 	 * @param {HttpOpts} options http options
@@ -218,4 +286,40 @@ export declare namespace Knowledge {
 	 * @param {HttpOpts} options http options
 	 */
     export type ListKnowledgeTags = (body: ListKnowledgeTagsBody, options: HttpOpts) => Promise<ListKnowledgeTagsResponse>;
+    /**
+	 * 删除属性组回复
+	 * @param {DeleteUserAttributeGroupAnswerBody} body post body
+	 * @param {HttpOpts} options http options
+	 */
+    export type DeleteUserAttributeGroupAnswer = (body: DeleteUserAttributeGroupAnswerBody, options: HttpOpts) => Promise<{}>;
+    /**
+	 * 创建属性组回复
+	 * @param {CreateUserAttributeGroupAnswerBody} body post body
+	 * @param {HttpOpts} options http options
+	 */
+    export type CreateUserAttributeGroupAnswer = (body: CreateUserAttributeGroupAnswerBody, options: HttpOpts) => Promise<CreateUserAttributeGroupAnswerResponse>;
+    /**
+	 * 更新属性组回复
+	 * @param {CreateUserAttributeGroupAnswerBody} body post body
+	 * @param {HttpOpts} options http options
+	 */
+    export type UpdateUserAttributeGroupAnswer = (body: CreateUserAttributeGroupAnswerBody, options: HttpOpts) => Promise<CreateUserAttributeGroupAnswerResponse>;
+    /**
+	 * 查询属性组及属性列表
+	 * @param {ListUserAttributeGroupItemsBody} body post body
+	 * @param {HttpOpts} options http options
+	 */
+    export type ListUserAttributeGroupItems = (body: ListUserAttributeGroupItemsBody, options: HttpOpts) => Promise<ListUserAttributeGroupItemsResponse>;
+    /**
+	 * 查询属性组回复列表
+	 * @param {ListUserAttributeGroupAnswersBody} body post body
+	 * @param {HttpOpts} options http options
+	 */
+    export type ListUserAttributeGroupAnswers = (body: ListUserAttributeGroupAnswersBody, options: HttpOpts) => Promise<ListUserAttributeGroupAnswersResponse>;
+    /**
+	 * 创建属性组
+	 * @param {UpdateUserAttributeGroupBody} body post body
+	 * @param {HttpOpts} options http options
+	 */
+    export type CreateUserAttributeGroup = (body: UpdateUserAttributeGroupBody, options: HttpOpts) => Promise<UpdateUserAttributeGroupResponse>
 }

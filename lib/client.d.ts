@@ -1,7 +1,7 @@
 import { Agent } from "http";
 import { HttpOpts } from "./types/common"
 import { Configuration } from "log4js";
-import { Knowledge, UpdateKnowledge } from './types/Knowledge';
+import { Knowledge, UpdateKnowledge, UpdateUserAttributeGroupAnswer } from './types/Knowledge';
 import { User } from "./types/User";
 import { Dialogue } from "./types/Dialogue";
 
@@ -130,6 +130,13 @@ declare class Client {
      */
     createSimilarQuestion: Knowledge.CreateSimilarQuestion;
     /**
+     * 更新相似问
+     *
+     * @type {Knowledge.UpdateSimilarQuestion}
+     * @memberof Client
+     */
+    updateSimilarQuestion: Knowledge.UpdateSimilarQuestion;
+    /**
      * 查询知识点列表
      *
      * @type {Knowledge.ListKnowledgeItems}
@@ -157,6 +164,48 @@ declare class Client {
      * @memberof Client
      */
     updateKnowledge: Knowledge.UpdateKnowledge;
+    /**
+     * 删除属性组回复
+     *
+     * @type {Knowledge.DeleteUserAttributeGroupAnswer}
+     * @memberof Client
+     */
+    deleteUserAttributeGroupAnswer: Knowledge.DeleteUserAttributeGroupAnswer;
+    /**
+     * 创建属性组回复
+     *
+     * @type {Knowledge.CreateUserAttributeGroupAnswer}
+     * @memberof Client
+     */
+    createUserAttributeGroupAnswer: Knowledge.CreateUserAttributeGroupAnswer;
+    /**
+     * 更新属性组回复
+     *
+     * @type {Knowledge.UpdateUserAttributeGroupAnswer}
+     * @memberof Client
+     */
+    updateUserAttributeGroupAnswer: Knowledge.UpdateUserAttributeGroupAnswer;
+    /**
+     * 查询属性组及属性列表
+     *
+     * @type {Knowledge.ListUserAttributeGroupItems}
+     * @memberof Client
+     */
+    listUserAttributeGroupItems: Knowledge.ListUserAttributeGroupItems;
+    /**
+     * 查询属性组回复列表
+     *
+     * @type {Knowledge.ListUserAttributeGroupAnswers}
+     * @memberof Client
+     */
+    listUserAttributeGroupAnswers: Knowledge.ListUserAttributeGroupAnswers;
+    /**
+     * 创建属性组
+     *
+     * @type {Knowledge.CreateUserAttributeGroup}
+     * @memberof Client
+     */
+    createUserAttributeGroup: Knowledge.CreateUserAttributeGroup;
     /**
      * CommonRequest
      *
