@@ -4,6 +4,7 @@ import { Configuration } from "log4js";
 import { Knowledge, UpdateKnowledge, UpdateUserAttributeGroupAnswer } from './types/Knowledge';
 import { User } from "./types/User";
 import { Dialogue } from "./types/Dialogue";
+import { Statistics, ListQARecallDailyKnowledgeStats } from './types/Statistics';
 
 type LogConfig = {
     format: string,
@@ -206,6 +207,34 @@ declare class Client {
      * @memberof Client
      */
     createUserAttributeGroup: Knowledge.CreateUserAttributeGroup;
+    /**
+     * 查询问答召回数统计列表（日报）
+     *
+     * @type {Statistics.ListQARecallDailyStats}
+     * @memberof Client
+     */
+    listQARecallDailyStats: Statistics.ListQARecallDailyStats;
+    /**
+     * 添加用户满意度评价
+     *
+     * @type {Statistics.CreateQASatisfaction}
+     * @memberof Client
+     */
+    createQASatisfaction: Statistics.CreateQASatisfaction;
+    /**
+     * 查询问答召回数统计列表（知识点粒度，日报）
+     *
+     * @type {Statistics.ListQARecallDailyKnowledgeStats}
+     * @memberof Client
+     */
+    listQARecallDailyKnowledgeStats: Statistics.ListQARecallDailyKnowledgeStats;
+    /**
+     * 查询问答满意度评价统计列表（知识点粒度，日报）
+     *
+     * @type {Statistics.ListQASatisfactionDailyKnowledgeStats}
+     * @memberof Client
+     */
+    listQASatisfactionDailyKnowledgeStats: Statistics.ListQASatisfactionDailyKnowledgeStats;
     /**
      * CommonRequest
      *
