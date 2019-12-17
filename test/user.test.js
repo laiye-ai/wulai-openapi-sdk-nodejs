@@ -1,5 +1,5 @@
 "use strict";
-const WuLaiSDKClient = require("../lib/client");
+const WuLaiSDKClient = require("../lib/api/user");
 const expect = require("chai").expect;
 const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;

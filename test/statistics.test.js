@@ -1,5 +1,5 @@
 "use strict";
-const WuLaiSDKClient = require("../lib/client");
+const WuLaiSDKClient = require("../lib/api/statistics");
 const expect = require("chai").expect;
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
@@ -16,6 +16,5 @@ describe("Client Statistics API", async () => {
             start_date: "19700101",
             end_date: "19700101"
         });
-        console.log(res);
     });
 });

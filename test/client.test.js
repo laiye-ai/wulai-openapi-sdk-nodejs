@@ -348,24 +348,4 @@ describe("WuLai SDK Client", () => {
             });
         });
     });
-    describe("Client Private Methods", () => {
-        const clientModule = rewire("../lib/client");
-        it("getRandomString should ok", () => {
-            const getRandomString = clientModule.__get__("getRandomString");
-            const randomStr_32 = getRandomString(32);
-            const randomStr_16 = getRandomString(16);
-            expect(randomStr_16.length).to.be.equal(16);
-            expect(randomStr_32.length).to.be.equal(32);
-        });
-        it("makeAuthHeaders should ok", () => {
-            const makeAuthHeaders = clientModule.__get__("makeAuthHeaders");
-            const headers = makeAuthHeaders("pubkey", "secret");
-            expect(headers).to.have.keys([
-                "Api-Auth-pubkey",
-                "Api-Auth-nonce",
-                "Api-Auth-timestamp",
-                "Api-Auth-sign"
-            ]);
-        });
-    });
 });

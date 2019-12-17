@@ -3,8 +3,8 @@ const expect = require("chai").expect;
 const muk = require("muk");
 const httpx = require("httpx");
 class Exception extends Error { }
-const Http = require("../lib/http");
-const { statusMap } = require("../lib/exception");
+const Http = require("../lib/core/http");
+const { statusMap } = require("../lib/core/exception");
 function Mock(response, body) {
     before(() => {
         muk(httpx, "request", (url, options) => {
@@ -20,7 +20,7 @@ function Mock(response, body) {
 }
 describe("Base Http Request", () => {
     describe("Http class initial", () => {
-        it("should ok with <http> protocol", () => {
+        it("should ok with http protocol", () => {
             const http = new Http({
                 endpoint: "http://openapi.wul.ai"
             });
@@ -28,7 +28,7 @@ describe("Base Http Request", () => {
             expect(http.keepAliveAgent).to.be.an("object");
             expect(http.keepAliveAgent).to.have.property("protocol", "http:");
         });
-        it("should ok with <https> protocol", () => {
+        it("should ok with https protocol", () => {
             const http = new Http({
                 endpoint: "https://openapi.wul.ai"
             });
