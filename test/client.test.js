@@ -1,6 +1,5 @@
 "use strict";
 const expect = require("chai").expect;
-const rewire = require("rewire");
 const muk = require("muk");
 const httpx = require("httpx");
 const WuLaiSDKClient = require("../lib/client");
