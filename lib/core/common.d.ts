@@ -66,14 +66,6 @@ export interface BotResponseBody {
     user_id: string;
     extra: string;
 }
-export type HttpOpts = {
-    headers: object;
-    timeout: number;
-    agent: Agent;
-    beforeRequest: Function;
-    compression: boolean;
-    maxRetry: number;
-};
 export type BotSource =
     | "DEFAULT_ANSWER_SOURCE"
     | "KEYWORD_BOT" // 关键字机器人

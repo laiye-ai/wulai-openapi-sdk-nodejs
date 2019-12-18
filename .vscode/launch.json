@@ -8,8 +8,8 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Server Debug",
-      "program": "${workspaceFolder}/demo.js",
+      "name": "Debug",
+      "program": "${workspaceFolder}/lib/demo.js",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ]

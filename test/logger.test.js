@@ -1,6 +1,6 @@
 "use strict";
 const expect = require("chai").expect;
-const createLogger = require("../lib/logger");
+const createLogger = require("../lib/core/logger");
 describe("logger should ok", () => {
     describe("config should ok", () => {
         it("debug [false] should ok", () => {
