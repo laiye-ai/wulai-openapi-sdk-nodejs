@@ -1,15 +1,5 @@
 # 待实现API
 
-### 统计类
-
-查询问答召回数统计列表（知识点粒度，日报） `listQARecallDailyKnowledgeStats`
-
-查询问答召回数统计列表（日报） `listQARecallDailyStats`
-
-添加用户满意度评价 `createQASatisfaction`
-
-查询问答满意度评价统计列表（知识点粒度，日报） `listQASatisfactionDailyKnowledgeStats`
-
 ### 词库管理类
 
 查询全部实体概要 `listEntities`

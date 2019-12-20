@@ -188,6 +188,8 @@ declare namespace Dialogue {
     similar_response: SimilarResponse[];
     enable_evaluate: boolean;
     delay_ts: number;
+    extra: string;
+    answer_id: number | string
   }
   interface Msg {
     direction: string;
@@ -329,6 +331,8 @@ declare namespace Dialogue {
     extra: string;
     user_id: string;
     msg_ts: string;
+    bot: Bot;
+    answer_id: number;
   }
   export interface SyncMessageResponse {
     msg_id: string;
