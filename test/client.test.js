@@ -214,7 +214,6 @@ describe("WuLai SDK Client", () => {
             const client = new WuLaiSDKClient({
                 pubkey: PUBKEY,
                 secret: SECRET,
-                debug: true,
                 options: {
                     maxRetry: 5
                 }

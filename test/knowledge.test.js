@@ -9,8 +9,7 @@ describe("Client Knowledge API", async () => {
         endpoint: "https://openapi.wul.ai",
         pubkey: PUBKEY,
         secret: SECRET,
-        apiVersion: "v2",
-        debug: true
+        apiVersion: "v2"
     });
     let knowledgeTagId = "";
     let knowledgeId = "";
