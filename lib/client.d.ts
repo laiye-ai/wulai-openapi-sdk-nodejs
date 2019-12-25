@@ -134,15 +134,69 @@ declare class Client {
   /**
    * 创建用户
    */
-  createUser(body: User.Types.CreateUserRequest, options: HttpOpts): Promise<{}>;
+  createUser(body: User.Types.CreateUserRequest, options: Client.HttpOpts): Promise<{}>;
   /**
    * 给用户添加属性值
    */
-  createUserAttribute(body: User.Types.CreateUserAttributeRequest, options: HttpOpts): Promise<{}>;
+  createUserAttribute(body: User.Types.CreateUserAttributeRequest, options: Client.HttpOpts): Promise<{}>;
   /**
    * 获取用户属性列表
    */
-  listUserAttribute(body: User.Types.ListUserAttributeRequest, options: HttpOpts): Promise<User.Types.ListUserAttributeResponse>;
+  listUserAttribute(body: User.Types.ListUserAttributeRequest, options: Client.HttpOpts): Promise<User.Types.ListUserAttributeResponse>;
+
+  // 词库管理类API
+  /**
+   * 查询全部试题概要
+   */
+  listEntities(body: Dictionary.Types.ListEntitiesRequest, options: Client.HttpOpts): Promise<Dictionary.Types.ListEntitiesResponse>
+  /** 
+   * 删除专有词汇
+  */
+  deleteTerm(body: Dictionary.Types.DeleteTermRequest, options: Client.HttpOpts): Promise<{}>
+  /**
+   * 创建专有词汇
+   */
+  createTerm(body: Dictionary.Types.CreateTermRequest, options: Client.HttpOpts): Promise<Dictionary.Types.CreateTermResponse>
+  /**
+   * 更新专有词汇
+   */
+  updateTerm(body: Dictionary.Types.UpdateTermRequest, options: Client.HttpOpts): Promise<Dictionary.Types.UpdateTermResponse>
+  /** 
+   * 查询专有词汇列表
+  */
+  listTerm(body: Dictionary.Types.ListTermRequest, options: Client.HttpOpts): Promise<Dictionary.Types.ListTermResponse>
+  /** 
+   * 创建意图实体值相似说法
+  */
+  createIntentEntityValue(body: Dictionary.Types.CreateIntentEntityValueRequest, options: Client.HttpOpts): Promise<Dictionary.Types.CreateIntentEntityValueResponse>
+  /** 
+   * 创建意图实体
+  */
+  createIntentEntity(body: Dictionary.Types.CreateIntentEntityRequest, options: Client.HttpOpts): Promise<Dictionary.Types.CreateIntentEntityResponse>
+  /** 
+   * 删除枚举实体值
+  */
+  deleteEnumerationEntityValue(body: Dictionary.Types.DeleteEnumerationEntityValueRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 查询一个实体详情
+  */
+  getEntity(body: Dictionary.Types.GetEntityRequest, options: Client.HttpOpts): Promise<Dictionary.Types.GetEntityResponse>
+  /** 
+   * 创建枚举实体值
+  */
+  createEnumerationEntityValue(body: Dictionary.Types.CreateEnumerationEntityValueRequest, options: Client.HttpOpts): Promise<Dictionary.Types.CreateEnumerationEntityValueResponse>
+  /** 
+   * 删除实体
+  */
+  deleteEntity(body: Dictionary.Types.DeleteEntityRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 创建枚举实体
+  */
+  createEnumerationEntity(body: Dictionary.Types.CreateEnumerationEntityRequest, options: Client.HttpOpts): Promise<Dictionary.Types.CreateEnumerationEntityResponse>
+  /** 
+   * 删除意图实体值相似问说法
+  */
+  deleteIntentEntityValue(body: Dictionary.Types.DeleteIntentEntityValueRequest, options: Client.HttpOpts): Promise<{}>
 }
 
 
@@ -657,4 +711,145 @@ declare namespace User {
   }
 
   export import Types = User
+}
+
+// 词库管理类-类型声明
+declare namespace Dictionary {
+  interface Entity {
+    type: 'LIST_ENTITY_TYPE_ERROR' | 'LIST_ENTITY_TYPE_SYSTEM' | 'LIST_ENTITY_TYPE_ENUMERATION' | 'LIST_ENTITY_TYPE_REGEX' | 'LIST_ENTITY_TYPE_INTENT'
+    id: number
+    name: string
+  }
+  interface EntityQuery extends Entity {
+    value: {
+      intent_entity_value: EntityValue
+    }
+  }
+  interface Term {
+    name: string
+    id?: string
+  }
+  interface PageList {
+    page: number,
+    page_size: number
+  }
+  interface TermItem {
+    term: Term
+    synonyms?: string[]
+  }
+  interface EntityValue {
+    synonyms: string[]
+    standard_value: string
+  }
+  interface IntentEntity {
+    id: number
+    value: EntityValue
+    name: string
+  }
+  interface IntentEntityNew {
+    standard_value: string
+    name: string
+  }
+  // 查询全部实体概要 请求数据
+  export interface ListEntitiesRequest extends PageList {}
+  // 查询全部实体概要 响应数据
+  export interface ListEntitiesResponse {
+    entities: Entity[]
+  }
+  // 删除专有词汇 请求数据
+  export interface DeleteTermRequest {
+    id: string
+  }
+  // 创建专有词汇 请求数据
+  export interface CreateTermRequest {
+    term_item: TermItem
+  }
+  // 创建专有词汇 响应数据
+  export interface CreateTermResponse extends CreateTermRequest {}
+
+  // 更新专有词汇 请求数据
+  export interface UpdateTermRequest  {
+    term_item: TermItem
+  }
+  // 更新专有词汇 响应数据
+  export interface UpdateTermResponse extends UpdateTermRequest {}
+
+  // 查询专有词汇列表 请求数据
+  export interface ListTermRequest extends PageList {}
+  // 查询专有词汇列表 响应数据
+  export interface ListTermResponse extends CreateTermRequest {
+    page_count: number
+  }
+
+  // 创建意图实体 请求数据
+  export interface CreateIntentEntityRequest {
+    intent_entity: IntentEntityNew
+  }
+  // 创建意图实体 响应数据
+  export interface CreateIntentEntityResponse {
+    intent_entity: IntentEntity
+  }
+
+  // 创建意图实体值相似说法 请求数据
+  export interface CreateIntentEntityValueRequest {
+    entity_id: number
+    synonyms: string[]
+  }
+  // 创建意图实体值相似说法 响应数据
+  export interface CreateIntentEntityValueResponse {
+    intent_entity: IntentEntity
+  }
+
+  // 删除枚举实体值 请求数据
+  export interface DeleteEnumerationEntityValueRequest {
+    entity_id: string
+    value: EntityValue
+  }
+
+  // 查询一个实体详情 请求数据
+  export interface GetEntityRequest {
+    id: number
+  }
+  // 查询一个实体详情 响应数据
+  export interface GetEntityResponse {
+    entity: EntityQuery
+  }
+
+  // 创建枚举实体值 请求数据
+  export interface CreateEnumerationEntityValueRequest {
+    entity_id: number
+    value: EntityValue
+  }
+  // 创建枚举实体值 响应数据
+  export interface CreateEnumerationEntityValueResponse {
+    id: number
+    name: string
+    values: EntityValue[]
+  }
+
+  // 删除实体 请求数据
+  export interface DeleteEntityRequest {
+    id: number
+  }
+
+  // 创建枚举实体 请求数据
+  export interface CreateEnumerationEntityRequest {
+    enum_entity: {
+      name: string
+    }
+  }
+  // 创建枚举实体 响应数据
+  export interface CreateEnumerationEntityResponse {
+    enum_entity: {
+      id: number
+      name: string
+      values: EntityValue[]
+    }
+  }
+  // 删除意图实体值相似问说法
+  export interface DeleteIntentEntityValueRequest {
+    entity_id: number
+    synonyms: string[]
+  }
+  export import Types = Dictionary
 }
