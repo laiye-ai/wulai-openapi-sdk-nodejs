@@ -4,7 +4,7 @@ const expect = require("chai").expect;
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
-describe("Client Knowledge API", async () => {
+describe("知识点类 API Test", async () => {
     let client = new WuLaiSDKClient({
         endpoint: "https://openapi.wul.ai",
         pubkey: PUBKEY,
@@ -109,24 +109,24 @@ describe("Client Knowledge API", async () => {
         });
         expect(response).to.have.keys(["knowledge"]);
     });
-    it("createUserAttributeGroup should ok", async () => {
-        // let response = await client.createUserAttributeGroup({
-        //     user_attribute_group_item: {
-        //         user_attribute_user_attribute_value: [{
-        //             user_attribute: {
-        //                 id: "101520"
-        //             },
-        //             user_attribute_value: {
-        //                 name: "sex:" + Date.parse(new Date)
-        //             }
-        //         }],
-        //         user_attribute_group: {
-        //             name: "随便玩:" + Date.parse(new Date)
-        //         }
-        //     }
-        // });
-        // expect(response).to.have.keys(["user_attribute_group_item"]);
-    });
+    // it("createUserAttributeGroup should ok", async () => {
+    //     let response = await client.createUserAttributeGroup({
+    //         user_attribute_group_item: {
+    //             user_attribute_user_attribute_value: [{
+    //                 user_attribute: {
+    //                     id: "101520"
+    //                 },
+    //                 user_attribute_value: {
+    //                     name: "sex:" + Date.parse(new Date)
+    //                 }
+    //             }],
+    //             user_attribute_group: {
+    //                 name: "随便玩:" + Date.parse(new Date)
+    //             }
+    //         }
+    //     });
+    //     expect(response).to.have.keys(["user_attribute_group_item"]);
+    // });
     it("listUserAttributeGroupItems should ok", async () => {
         let response = await client.listUserAttributeGroupItems({
             page: 1,
@@ -135,25 +135,25 @@ describe("Client Knowledge API", async () => {
         attributeGroupId = response.user_attribute_group_items[0].user_attribute_group.id;
         expect(response).to.have.keys(["user_attribute_group_items", "page_count"]);
     });
-    it("updateUserAttributeGroup should ok", async () => {
-        // let response = await client.updateUserAttributeGroup({
-        //     user_attribute_group_item: {
-        //         user_attribute_user_attribute_value: [{
-        //             user_attribute: {
-        //                 id: "102830"
-        //             },
-        //             user_attribute_value: {
-        //                 name: String(Date.parse(new Date))
-        //             }
-        //         }],
-        //         user_attribute_group: {
-        //             name: String(Date.parse(new Date)),
-        //             id: attributeGroupId
-        //         }
-        //     }
-        // });
-        // expect(response).to.have.keys(["user_attribute_group_item"]);
-    });
+    // it("updateUserAttributeGroup should ok", async () => {
+    //     let response = await client.updateUserAttributeGroup({
+    //         user_attribute_group_item: {
+    //             user_attribute_user_attribute_value: [{
+    //                 user_attribute: {
+    //                     id: "102830"
+    //                 },
+    //                 user_attribute_value: {
+    //                     name: String(Date.parse(new Date))
+    //                 }
+    //             }],
+    //             user_attribute_group: {
+    //                 name: String(Date.parse(new Date)),
+    //                 id: attributeGroupId
+    //             }
+    //         }
+    //     });
+    //     expect(response).to.have.keys(["user_attribute_group_item"]);
+    // });
     it("createUserAttributeGroupAnswer should ok", async () => {
         let response = await client.createUserAttributeGroupAnswer({
             user_attribute_group_answer: {

@@ -9,7 +9,7 @@ let client = new WuLaiSDKClient({
     secret: SECRET,
     apiVersion: "v2"
 });
-describe("Statistics API", async () => {
+describe("统计类 API Test", async () => {
     
     it("listQARecallDailyKnowledgeStats(查询问答召回数统计列表（知识点粒度，日报）) should ok", async () => {
         let response = await client.listQARecallDailyKnowledgeStats({
@@ -29,7 +29,7 @@ describe("Statistics API", async () => {
     });
     // 添加问答满意度完整步骤封装
     async function addStatisfaction() {
-        const newUserId = `userid: ${Date.parse(new Date)}`;
+        const newUserId = `userid: 1577256416000`;
         const msgText = "sdktest";
         
         let userRes = await client.createUser({

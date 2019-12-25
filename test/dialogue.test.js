@@ -5,7 +5,7 @@ const USER_ID = "wulai_node_sdk_test";
 const PUBKEY = process.env.WULAI_SDK_PUBKEY;
 const SECRET = process.env.WULAI_SDK_SECRET;
 
-describe("Client Dialogue API", async () => {
+describe("对话类 API Test", async () => {
     let client = new WuLaiSDKClient({
         endpoint: "https://openapi.wul.ai",
         pubkey: PUBKEY,

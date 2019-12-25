@@ -1,33 +1,5 @@
 # 待实现API
 
-### 词库管理类
-
-查询全部实体概要 `listEntities`
-
-查询同义词列表 `listSynonym`
-
-创建意图实体值相似说法 `createIntentEntityValue`
-
-查询一个实体详情 `getEntity`
-
-创建同义词 `createSynonym`
-
-创建枚举实体值 `createEnumerationEntityValue`
-
-更新同义词 `updateSynonym`
-
-创建枚举实体 `createEnumerationEntity`
-
-创建意图实体 `createIntentEntity`
-
-删除同义词 `deleteSynonym`
-
-删除实体 `deleteEntity`
-
-删除枚举实体值 `deleteEnumerationEntityValue`
-
-删除意图实体值相似说法 `deleteIntentEntityValue`
-
 
 ### 自然语言处理类
 
