@@ -39,24 +39,23 @@ describe("知识点类 API Test", async () => {
         });
         expect(response).to.have.keys(["knowledge_tag_knowledge"]);
     });
-    let createdKnowledgeTag = null
+    let createdKnowledgeTag = null;
     it("createKnowledgeTag（创建知识点分类） should ok", async () => {
         let response = await client.createKnowledgeTag({
             knowledge_tag: {
-                name: 'tag-1'
+                name: "tag-1"
             }
         });
-        createdKnowledgeTag = response.knowledge_tag
+        createdKnowledgeTag = response.knowledge_tag;
         expect(response).to.have.keys(["knowledge_tag"]);
     });
     it("updateKnowledgeTag（更新知识点分类） should ok", async () => {
         let response = await client.updateKnowledgeTag({
             knowledge_tag: {
                 id: createdKnowledgeTag.id,
-                name: 'tag-2'
+                name: "tag-2"
             }
         });
-        createdKnowledgeTag = response.knowledge_tag
         expect(response).to.have.keys(["knowledge_tag"]);
     });
     it("batchCreateKnowledgeItems（批量添加知识点列表） should ok", async () => {
@@ -69,7 +68,7 @@ describe("知识点类 API Test", async () => {
                     status: true,
                     create_time: Date.parse(new Date()),
                     respond_all: true,
-                    standard_question: 'batch_create_knowledge: ' + Date.parse(new Date())
+                    standard_question: "batch_create_knowledge: " + Date.parse(new Date())
                 }
             }, {
                 knowledge_tag: {
@@ -79,7 +78,7 @@ describe("知识点类 API Test", async () => {
                     status: true,
                     create_time: Date.parse(new Date()),
                     respond_all: true,
-                    standard_question: 'batch_create_knowledge: ' + Date.parse(new Date()) + 1
+                    standard_question: "batch_create_knowledge: " + Date.parse(new Date()) + 1
                 }
             }]
         });

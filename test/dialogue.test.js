@@ -87,17 +87,17 @@ describe("对话类 API Test", async () => {
         });
         expect(response).to.be.have.key("msg_id");
     });
-    const newUserId = 'newUser'
+    const newUserId = "newUser";
     it("sendMessage（给用户发消息） should ok", async () => {
         
         await client.createUser({
             user_id: newUserId,
-            nickname: '超神'
-        })
+            nickname: "超神"
+        });
         let response = await client.sendMessage({
             user_id: newUserId,
             msg_body: {
-                text: { content: '你好' }
+                text: { content: "你好" }
             }
         });
         expect(response).to.be.have.key("msg_id");
@@ -105,7 +105,7 @@ describe("对话类 API Test", async () => {
     it("getUserInputSug（获取用户输入联想） should ok", async () => {
         let response = await client.getUserInputSug({
             user_id: newUserId,
-            query: '你'
+            query: "你"
         });
         expect(response).to.be.have.key("user_suggestions");
     });
