@@ -13,7 +13,7 @@ describe("词库管理类 API Test", async () => {
     });
     
     let createdTerm = null;
-    it("createTerm(创建专有词汇) should ok", async () => {
+    it("createTerm（创建专有词汇） should ok", async () => {
         let response = await client.createTerm({
             term_item: {
                 term: {
@@ -24,26 +24,26 @@ describe("词库管理类 API Test", async () => {
         createdTerm = response;
         expect(response).to.have.keys(["term_item"]);
     });
-    it("listTerm(查询专有词汇列表) should ok", async () => {
+    it("listTerm（查询专有词汇列表） should ok", async () => {
         let response = await client.listTerm({
             page: 1,
             page_size: 20
         });
         expect(response).to.have.keys(["term_item", "page_count"]);
     });
-    it("updateTerm(更新专有词汇) should ok", async () => {
+    it("updateTerm（更新专有词汇） should ok", async () => {
         createdTerm.term_item.term.name = "term_updated";
         createdTerm.term_item.synonyms = ["term1"];
         let response = await client.updateTerm(createdTerm);
         expect(response).to.have.keys(["term_item"]);
     });
-    it("deleteTerm(删除专有词汇) should ok", async () => {
+    it("deleteTerm（删除专有词汇） should ok", async () => {
         let response = await client.deleteTerm({
             id: createdTerm.term_item.term.id
         });
         expect(response).to.be.eql({});
     });
-    it("listEntities(查询全部实体概要) should ok", async () => {
+    it("listEntities（查询全部实体概要） should ok", async () => {
         let response = await client.listEntities({
             page: 1,
             page_size: 100
@@ -52,7 +52,7 @@ describe("词库管理类 API Test", async () => {
     });
     let createdEntity = null;
     const now = Date.parse(new Date);
-    it("createIntentEntity(创建意图实体) should ok", async () => {
+    it("createIntentEntity（创建意图实体） should ok", async () => {
         let response = await client.createIntentEntity({
             intent_entity: {
                 standard_value: "who are you",
@@ -62,27 +62,27 @@ describe("词库管理类 API Test", async () => {
         createdEntity = response.intent_entity;
         expect(response).to.have.keys(["intent_entity"]);
     });
-    it("createIntentEntityValue(创建意图实体值相似说法) should ok", async () => {
+    it("createIntentEntityValue（创建意图实体值相似说法） should ok", async () => {
         let response = await client.createIntentEntityValue({
             entity_id: createdEntity.id,
             synonyms: ["添加相似说法"]
         });
         expect(response).to.have.keys(["intent_entity"]);
     });
-    it("getEntity(查询一个实体详情) should ok", async () => {
+    it("getEntity（查询一个实体详情） should ok", async () => {
         let response = await client.getEntity({
             id: createdEntity.id
         });
         expect(response).to.have.keys(["entity"]);
     });
-    it("deleteIntentEntityValue(删除意图实体值相似说法) should ok", async () => {
+    it("deleteIntentEntityValue（删除意图实体值相似说法）should ok", async () => {
         let response = await client.deleteIntentEntityValue({
             entity_id: createdEntity.id,
             synonyms: ["添加相似说法"]
         });
         expect(response).to.be.eql({});
     });
-    it("deleteEntity(删除意图实体) should ok", async () => {
+    it("deleteEntity（删除意图实体） should ok", async () => {
         let response = await client.deleteEntity({
             id: createdEntity.id,
         });
@@ -90,7 +90,7 @@ describe("词库管理类 API Test", async () => {
     });
     
     let createdEnumEntity = null;
-    it("createEnumerationEntity(创建枚举实体) should ok", async () => {
+    it("createEnumerationEntity（创建枚举实体） should ok", async () => {
         let response = await client.createEnumerationEntity({
             enum_entity: {
                 name: "enum_entity"
@@ -99,7 +99,7 @@ describe("词库管理类 API Test", async () => {
         createdEnumEntity = response.enum_entity;
         expect(response).to.have.keys(["enum_entity"]);
     });
-    it("createEnumerationEntityValue(创建枚举实体值) should ok", async () => {
+    it("createEnumerationEntityValue（创建枚举实体值） should ok", async () => {
         let response = await client.createEnumerationEntityValue({
             entity_id: createdEnumEntity.id,
             value: {
@@ -109,7 +109,7 @@ describe("词库管理类 API Test", async () => {
         });
         expect(response).to.have.keys(["enum_entity"]);
     });
-    it("deleteEnumerationEntityValue(删除枚举实体值) should ok", async () => {
+    it("deleteEnumerationEntityValue（删除枚举实体值） should ok", async () => {
         let response = await client.deleteEnumerationEntityValue({
             entity_id: createdEnumEntity.id,
             value: {
@@ -118,7 +118,7 @@ describe("词库管理类 API Test", async () => {
         });
         expect(response).to.be.eql({});
     });
-    it("deleteEntity(删除枚举实体) should ok", async () => {
+    it("deleteEntity（删除枚举实体） should ok", async () => {
         let response = await client.deleteEntity({
             id: createdEnumEntity.id,
         });

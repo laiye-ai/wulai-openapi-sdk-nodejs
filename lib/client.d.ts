@@ -29,8 +29,6 @@ declare class Client {
   getBotResponse(body: BotResponseBody, options: Client.HttpOpts): Promise<Dialogue.Types.BotResponseResponse>;
   /**
    * 获取关键机器人回复
-   * @param {BotResponseBody} body post body
-   * @param {HttpOpts} options http options
    */
   getKeywordResponse(body: BotResponseBody, options: Client.HttpOpts): Promise<Dialogue.Types.KeywordBotResponse>;
   /**
@@ -49,6 +47,14 @@ declare class Client {
    * 同步发给用户的消息
    */
   syncMessage(body: Dialogue.Types.SyncMessageRequest, options: Client.HttpOpts): Promise<Dialogue.Types.SyncMessageResponse>;
+  /** 
+   * 给用户发消息
+  */
+  sendMessage(body: Dialogue.Types.SendMessageRequest, options: Client.HttpOpts): Promise<Dialogue.Types.SendMessageResponse>;
+  /** 
+   * 获取用户输入联想
+  */
+  getUserInputSug(body: Dialogue.Types.GetUserInputSugRequest, options: Client.HttpOpts): Promise<Dialogue.Types.GetUserInputSugResponse>;
 
   // 知识点类API
   /**
@@ -83,10 +89,26 @@ declare class Client {
    * 更新知识点
    */
   updateKnowledge(body: Knowledge.Types.UpdateKnowledgeRequest, options: Client.HttpOpts): Promise<Knowledge.Types.UpdateKnowledgeResponse>
+  /** 
+   * 批量添加知识点列表
+  */
+  batchCreateKnowledgeItems(body: Knowledge.Types.BatchCreateKnowledgeItemsRequest, options: Client.HttpOpts): Promise<Knowledge.Types.BatchCreateKnowledgeItemsResponse>
   /**
    * 查询知识点分类列表
    */
   listKnowledgeTags(body: Knowledge.Types.ListKnowledgeTagsRequest, options: Client.HttpOpts): Promise<Knowledge.Types.ListKnowledgeTagsResponse>;
+  /** 
+   * 创建知识点分类
+  */
+  createKnowledgeTag(body: Knowledge.Types.CreateKnowledgeTagRequest, options: Client.HttpOpts): Promise<Knowledge.Types.CreateKnowledgeTagResponse>;
+  /** 
+   * 更新知识点分类
+  */
+  updateKnowledgeTag(body: Knowledge.Types.UpdateKnowledgeTagRequest, options: Client.HttpOpts): Promise<Knowledge.Types.UpdateKnowledgeTagResponse>;
+  /** 
+   * 删除知识点分类
+  */
+  deleteKnowledgeTag(body: Knowledge.Types.DeleteKnowledgeTagRequest, options: Client.HttpOpts): Promise<{}>
   /**
    * 删除属性组回复
    */
@@ -197,6 +219,7 @@ declare class Client {
    * 删除意图实体值相似问说法
   */
   deleteIntentEntityValue(body: Dictionary.Types.DeleteIntentEntityValueRequest, options: Client.HttpOpts): Promise<{}>
+
 }
 
 
@@ -233,6 +256,10 @@ declare namespace Dialogue {
     knowledge_id: number;
     standard_question: string;
     question: string;
+    is_none_intention?: boolean
+  }
+  interface Chitchat {
+    corpus: "CHITCHAT_CORPUS_DEFAULT" | "CHITCHAT_CORPUS_OPEN_DOMAIN" | "CHITCHAT_CORPUS_CUSTOM"
   }
   interface Bot {
     qa: QA;
@@ -391,12 +418,39 @@ declare namespace Dialogue {
   export interface SyncMessageResponse {
     msg_id: string;
   }
+  interface SendMessageSimilarResponse {
+    source: BotSource
+    detail: { qa: QA } | { chitchat: Chitchat } | { task: Task } | { keyword: Keyword }
+  }
+
+  // 给用户发消息 请求数据
+  export interface SendMessageRequest {
+    similar_response?: SendMessageSimilarResponse[]
+    msg_body: MsgBody
+    quick_reply?: string[]
+    user_id: string
+    extra?: string
+  }
+  // 给用户发消息 响应数据
+  export interface SendMessageResponse {
+    msg_id: string
+  }
+
+  // 获取用户输入联想 请求数据
+  export interface GetUserInputSugRequest {
+    query: string
+    user_id: string
+  }
+  // 获取用户输入联想 响应数据
+  export interface GetUserInputSugResponse {
+    user_suggestions: Array<{suggestion: string}>
+  }
   export import Types = Dialogue;
 }
 
 // 知识点类API-类型声明
 declare namespace Knowledge {
-  interface Filter {
+  interface AttributeGroupFilter {
     knowledge_id: string;
     user_attribute_group_id: string;
   }
@@ -467,7 +521,10 @@ declare namespace Knowledge {
     respond_all: boolean;
     id: string;
   }
-
+  interface KnowledgeFilter {
+    knowledge_id?: string
+    knowledge_tag_id?: string
+  }
   interface KnowledgeTag {
     parent_knowledge_tag_id: string;
     id: string;
@@ -492,10 +549,13 @@ declare namespace Knowledge {
   export interface UpdateSimilarQuestionRequest {
     similar_question: SimilarQuestion;
   }
+  // 查询知识点列表 请求数据
   export interface ListKnowledgeItemsRequest {
     page: number;
     page_size: number;
+    filter?: KnowledgeFilter
   }
+  // 查询知识点列表 响应数据
   export interface ListKnowledgeItemsResponse {
     page_count: number;
     knowledge_items: KnowledgeItem[];
@@ -540,7 +600,9 @@ declare namespace Knowledge {
   export interface UpdateUserAttributeGroupAnswerRequest {
     user_attribute_group_answer: UserAttributeGroupAnswer;
   }
+  // 创建属性组回复 响应数据
   export interface CreateUserAttributeGroupAnswerResponse extends CreateUserAttributeGroupAnswerRequest { }
+  // 更新属性组回复 响应数据
   export interface UpdateUserAttributeGroupAnswerResponse extends UpdateUserAttributeGroupAnswerRequest { }
   export interface ListUserAttributeGroupItemsRequest {
     page: number;
@@ -574,7 +636,7 @@ declare namespace Knowledge {
     user_attribute_value: UserAttributeGroup;
   }
   export interface ListUserAttributeGroupAnswersRequest {
-    filter: Filter;
+    filter: AttributeGroupFilter;
     page: number;
     page_size: number;
   }
@@ -590,6 +652,45 @@ declare namespace Knowledge {
     knowledge_id: string;
     msg_body: MsgBody;
     id: string;
+  }
+  interface KnowledgeTag {
+    parent_knowledge_tag_id: string
+    id: string
+    name: string
+  }
+  // 创建知识点分类 请求数据
+  export interface CreateKnowledgeTagRequest {
+    knowledge_tag: KnowledgeTag
+  }
+  // 创建知识点分类 响应数据
+  export interface CreateKnowledgeTagResponse {
+    knowledge_tag: KnowledgeTag
+  }
+
+  // 删除知识点分类 请求数据
+  export interface DeleteKnowledgeTagRequest {
+    id: number
+  }
+  // 更新知识点分类 请求数据
+  export interface UpdateKnowledgeTagRequest {
+    knowledge_tag: {
+      id: string
+      name: string
+    }
+  }
+  // 更新知识点分类 响应数据
+  export interface UpdateKnowledgeTagResponse extends CreateKnowledgeTagResponse {}
+
+  interface BatchKnowledgeItem extends KnowledgeItem {
+    user_attribute_group_answers: UserAttributeGroupAnswer
+  }
+  // 批量添加知识点列表 请求数据
+  export interface BatchCreateKnowledgeItemsRequest {
+    knowledge_items: BatchKnowledgeItem[]
+  }
+  // 批量添加知识点列表 响应数据
+  export interface BatchCreateKnowledgeItemsResponse {
+    knowledge_related_items: BatchKnowledgeItem[]
   }
   export import Types = Knowledge
 }

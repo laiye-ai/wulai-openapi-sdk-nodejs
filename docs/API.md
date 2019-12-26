@@ -26,6 +26,10 @@
 
 同步发给用户的消息 `syncMessage`
 
+给用户发消息 `sendMessage`
+
+获取用户输入联想 `getUserInputSug`
+
 ### [知识点类](#知识点类)
 
 删除相似问 `deleteSimilarQuestion`
@@ -57,6 +61,14 @@
 更新相似问 `UpdateSimilarQuestion`
 
 创建属性组 `createUserAttributeGroup`
+
+创建知识点分类 `createKnowledgeTag`
+
+更新知识点分类 `updateKnowledgeTag`
+
+删除知识点分类 `deleteKnowledgeTag`
+
+批量添加知识点列表 `batchCreateKnowledgeItems`
 
 ### [统计类](#统计类)
 
