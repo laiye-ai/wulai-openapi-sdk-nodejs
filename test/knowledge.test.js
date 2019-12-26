@@ -16,14 +16,8 @@ describe("知识点类 API Test", async () => {
     let similarQuestionId = "";
     let attributeGroupId = "";
     let attributeGroupAnswerId = "";
-    it("listSimilarQuestions should ok", async () => {
-        let response = await client.listSimilarQuestions({
-            page: 1,
-            page_size: 10,
-        });
-        expect(response).to.have.keys(["similar_questions", "page_count"]);
-    });
-    it("listKnowledgeTags should ok", async () => {
+
+    it("listKnowledgeTags（查询知识点分类列表） should ok", async () => {
         let response = await client.listKnowledgeTags({
             page: 1,
             page_size: 10,
@@ -31,7 +25,7 @@ describe("知识点类 API Test", async () => {
         knowledgeTagId = response.knowledge_tags[0].id;
         expect(response).to.have.keys(["knowledge_tags", "page_count"]);
     });
-    it("createKnowledgeTagKnowledge should ok", async () => {
+    it("createKnowledgeTagKnowledge（创建知识点） should ok", async () => {
         let response = await client.createKnowledgeTagKnowledge({
             knowledge_tag_knowledge: {
                 knowledge_tag_id: knowledgeTagId,
@@ -45,34 +39,70 @@ describe("知识点类 API Test", async () => {
         });
         expect(response).to.have.keys(["knowledge_tag_knowledge"]);
     });
-    it("listKnowledgeTags should ok", async () => {
-        let response = await client.listKnowledgeTags({
-            page: 1,
-            page_size: 10
+    let createdKnowledgeTag = null;
+    it("createKnowledgeTag（创建知识点分类） should ok", async () => {
+        let response = await client.createKnowledgeTag({
+            knowledge_tag: {
+                name: "tag-1"
+            }
         });
-        knowledgeTagId = response.knowledge_tags[0].id;
-        expect(response).to.have.keys(["knowledge_tags", "page_count"]);
+        createdKnowledgeTag = response.knowledge_tag;
+        expect(response).to.have.keys(["knowledge_tag"]);
     });
-    it("listKnowledgeItems should ok", async () => {
+    it("updateKnowledgeTag（更新知识点分类） should ok", async () => {
+        let response = await client.updateKnowledgeTag({
+            knowledge_tag: {
+                id: createdKnowledgeTag.id,
+                name: "tag-2"
+            }
+        });
+        expect(response).to.have.keys(["knowledge_tag"]);
+    });
+    it("batchCreateKnowledgeItems（批量添加知识点列表） should ok", async () => {
+        let response = await client.batchCreateKnowledgeItems({
+            knowledge_items: [{
+                knowledge_tag: {
+                    id: createdKnowledgeTag.id
+                },
+                knowledge: {
+                    status: true,
+                    create_time: Date.parse(new Date()),
+                    respond_all: true,
+                    standard_question: "batch_create_knowledge: " + Date.parse(new Date())
+                }
+            }, {
+                knowledge_tag: {
+                    id: createdKnowledgeTag.id
+                },
+                knowledge: {
+                    status: true,
+                    create_time: Date.parse(new Date()),
+                    respond_all: true,
+                    standard_question: "batch_create_knowledge: " + Date.parse(new Date()) + 1
+                }
+            }]
+        });
+        expect(response).to.have.keys(["knowledge_related_items"]);
+    });
+    it("listKnowledgeItems（查询知识点列表） should ok", async () => {
         let response = await client.listKnowledgeItems({
             page_size: 10,
-            page: 1,
-
+            page: 1
         });
         let knowledgeItems = response.knowledge_items;
         knowledgeId = knowledgeItems[knowledgeItems.length - 2].knowledge.id;
         expect(response).to.have.keys(["knowledge_items", "page_count"]);
     });
-    it("createSimilarQuestion should ok", async () => {
+    it("createSimilarQuestion（创建相似问） should ok", async () => {
         let response = await client.createSimilarQuestion({
             similar_question: {
                 knowledge_id: knowledgeId,
-                question: "这是一个相似问题"
+                question: "similar_question"
             }
         });
         expect(response).to.have.keys(["similar_question"]);
     });
-    it("listSimilarQuestions should ok", async () => {
+    it("listSimilarQuestions（查询相似问列表） should ok", async () => {
         let response = await client.listSimilarQuestions({
             knowledge_id: knowledgeId,
             page: 1,
@@ -81,27 +111,27 @@ describe("知识点类 API Test", async () => {
         similarQuestionId = response.similar_questions[0].id;
         expect(response).to.have.keys(["similar_questions", "page_count"]);
     });
-    it("updateSimilarQuestion should ok", async () => {
+    it("updateSimilarQuestion（更新相似问） should ok", async () => {
         let response = await client.updateSimilarQuestion({
             similar_question: {
                 knowledge_id: knowledgeId,
                 id: similarQuestionId,
-                question: "这是更新后的相似问"
+                question: "updated similar question"
             }
         });
         expect(response).to.have.keys(["similar_question"]);
     });
-    it("deleteSimilarQuestion should ok", async () => {
+    it("deleteSimilarQuestion（删除相似问） should ok", async () => {
         let response = await client.deleteSimilarQuestion({
             id: similarQuestionId
         });
         expect(response).to.be.eql({});
     });
-    it("updateKnowledge should ok", async () => {
+    it("updateKnowledge（更新知识点） should ok", async () => {
         let response = await client.updateKnowledge({
             knowledge: {
                 status: false,
-                standard_question: "这是一个更新后的知识点：" + Date.parse(new Date),
+                standard_question: "updated knowledge：" + Date.parse(new Date),
                 id: knowledgeId,
                 respond_all: true,
                 maintained_by_user_attribute_group: true
@@ -109,25 +139,31 @@ describe("知识点类 API Test", async () => {
         });
         expect(response).to.have.keys(["knowledge"]);
     });
-    // it("createUserAttributeGroup should ok", async () => {
-    //     let response = await client.createUserAttributeGroup({
-    //         user_attribute_group_item: {
-    //             user_attribute_user_attribute_value: [{
-    //                 user_attribute: {
-    //                     id: "101520"
-    //                 },
-    //                 user_attribute_value: {
-    //                     name: "sex:" + Date.parse(new Date)
-    //                 }
-    //             }],
-    //             user_attribute_group: {
-    //                 name: "随便玩:" + Date.parse(new Date)
-    //             }
-    //         }
-    //     });
-    //     expect(response).to.have.keys(["user_attribute_group_item"]);
-    // });
-    it("listUserAttributeGroupItems should ok", async () => {
+    it("deleteKnowledgeTag（删除知识点分类） should ok", async () => {
+        let response = await client.deleteKnowledgeTag({
+            id: createdKnowledgeTag.id
+        });
+        expect(response).to.be.eql({});
+    });
+    it("createUserAttributeGroup（创建属性组） should ok", async () => {
+        let response = await client.createUserAttributeGroup({
+            user_attribute_group_item: {
+                user_attribute_user_attribute_value: [{
+                    user_attribute: {
+                        id: "101520"
+                    },
+                    user_attribute_value: {
+                        name: "sex：" + Date.parse(new Date)
+                    }
+                }],
+                user_attribute_group: {
+                    name: "随便玩:" + Date.parse(new Date)
+                }
+            }
+        });
+        expect(response).to.have.keys(["user_attribute_group_item"]);
+    });
+    it("listUserAttributeGroupItems（查询属性组及属性列表） should ok", async () => {
         let response = await client.listUserAttributeGroupItems({
             page: 1,
             page_size: 10
@@ -135,26 +171,26 @@ describe("知识点类 API Test", async () => {
         attributeGroupId = response.user_attribute_group_items[0].user_attribute_group.id;
         expect(response).to.have.keys(["user_attribute_group_items", "page_count"]);
     });
-    // it("updateUserAttributeGroup should ok", async () => {
-    //     let response = await client.updateUserAttributeGroup({
-    //         user_attribute_group_item: {
-    //             user_attribute_user_attribute_value: [{
-    //                 user_attribute: {
-    //                     id: "102830"
-    //                 },
-    //                 user_attribute_value: {
-    //                     name: String(Date.parse(new Date))
-    //                 }
-    //             }],
-    //             user_attribute_group: {
-    //                 name: String(Date.parse(new Date)),
-    //                 id: attributeGroupId
-    //             }
-    //         }
-    //     });
-    //     expect(response).to.have.keys(["user_attribute_group_item"]);
-    // });
-    it("createUserAttributeGroupAnswer should ok", async () => {
+    it("updateUserAttributeGroup（更新属性组） should ok", async () => {
+        let response = await client.updateUserAttributeGroup({
+            user_attribute_group_item: {
+                user_attribute_user_attribute_value: [{
+                    user_attribute: {
+                        id: "101520"
+                    },
+                    user_attribute_value: {
+                        name: "sex: " + String(Date.parse(new Date))
+                    }
+                }],
+                user_attribute_group: {
+                    name: String(Date.parse(new Date)),
+                    id: attributeGroupId
+                }
+            }
+        });
+        expect(response).to.have.keys(["user_attribute_group_item"]);
+    });
+    it("createUserAttributeGroupAnswer（创建属性组回复） should ok", async () => {
         let response = await client.createUserAttributeGroupAnswer({
             user_attribute_group_answer: {
                 answer: {
@@ -171,7 +207,7 @@ describe("知识点类 API Test", async () => {
         attributeGroupAnswerId = response.user_attribute_group_answer.answer.id;
         expect(response).to.have.keys(["user_attribute_group_answer"]);
     });
-    it("updateUserAttributeGroupAnswer should ok", async () => {
+    it("updateUserAttributeGroupAnswer（更新属性组回复） should ok", async () => {
         let response = await client.updateUserAttributeGroupAnswer({
             user_attribute_group_answer: {
                 answer: {
@@ -189,14 +225,14 @@ describe("知识点类 API Test", async () => {
 
         expect(response).to.have.keys(["user_attribute_group_answer"]);
     });
-    it("listUserAttributeGroupAnswers should ok", async () => {
+    it("listUserAttributeGroupAnswers（查询属性组回复列表） should ok", async () => {
         let response = await client.listUserAttributeGroupAnswers({
             page: 1,
             page_size: 10
         });
         expect(response).to.have.keys(["user_attribute_group_answers", "page_count"]);
     });
-    it("deleteUserAttributeGroupAnswer should ok", async () => {
+    it("deleteUserAttributeGroupAnswer（删除属性组回复） should ok", async () => {
         let response = await client.deleteUserAttributeGroupAnswer({
             id: attributeGroupAnswerId
         });
