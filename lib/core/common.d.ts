@@ -8,16 +8,17 @@ export type MsgBody =
     | Voice
     | Event
     | ShareLink;
-
+interface TextContent {
+    content: string;
+}
 interface Text {
-    text: {
-        content: string;
-    };
+    text: TextContent
+}
+interface ImageContent {
+    resource_url: string;
 }
 interface Image {
-    image: {
-        resource_url: string;
-    };
+    image: ImageContent
 }
 interface Custom {
     custom: {
@@ -38,12 +39,13 @@ interface File {
         resource_url: string;
     };
 }
+interface VoiceInfo {
+    resource_url: string;
+    type?: "AMR" | "PCM" | "WAV" | "OPUS" | "SPEEX" | "MP3";
+    recognition?: string;
+}
 interface Voice {
-    voice: {
-        resource_url: string;
-        type?: "AMR" | "PCM" | "WAV" | "OPUS" | "SPEEX" | "MP3";
-        recognition?: string;
-    };
+    voice: VoiceInfo
 }
 
 interface Event {
