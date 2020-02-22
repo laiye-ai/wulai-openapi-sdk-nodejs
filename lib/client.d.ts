@@ -151,7 +151,7 @@ declare class Client {
    * 查询问答满意度评价统计列表（知识点粒度，日报）
   */
   listQASatisfactionDailyKnowledgeStats(body: Statistics.Types.ListQASatisfactionDailyKnowledgeStatsRequest, options: Client.HttpOpts): Promise<Statistics.Types.ListQASatisfactionDailyKnowledgeStatsResponse>
-    
+
   // 用户类API
   /**
    * 创建用户
@@ -219,6 +219,148 @@ declare class Client {
    * 删除意图实体值相似问说法
   */
   deleteIntentEntityValue(body: Dictionary.Types.DeleteIntentEntityValueRequest, options: Client.HttpOpts): Promise<{}>
+
+  // 任务类API
+  /** 
+   * 创建场景
+  */
+  createScene(body: Scene.Types.CreateSceneBody, options: Client.HttpOpts): Promise<Scene.Types.SceneBody>
+  /** 
+   * 更新场景
+  */
+  updateScene(body: Scene.Types.SceneBody, options: Client.HttpOpts): Promise<Scene.Types.SceneBody>
+  /** 
+   * 删除场景
+  */
+  deleteScene(body: Scene.Types.DeleteSceneBody, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 创建意图
+  */
+  createIntent(body: Scene.Types.CreateIntentRequest, options: Client.HttpOpts): Promise<Scene.Types.IntentResponse>
+  /** 
+   * 更新意图
+  */
+  updateIntent(body: Scene.Types.UpdateIntentRequest, options: Client.HttpOpts): Promise<Scene.Types.IntentResponse>
+  /** 
+   * 删除意图
+  */
+  deleteIntent(body: Scene.Types.DeleteRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 查询意图列表
+  */
+  listIntents(body: { scene_id: string }, options: Client.HttpOpts): Promise<{ intents: Scene.Types.IntentResponse[] }>
+  /** 
+   * 更新意图状态
+  */
+  updateIntentStatus(body: Scene.Types.UpdateIntentStatusRequest, options: Client.HttpOpts): Promise<Scene.Types.UpdateIntentStatusResponse>
+  /** 
+   * 创建触发器
+  */
+  createIntentTrigger(body: Scene.Types.CreateIntentTriggerRequest, options: Client.HttpOpts): Promise<Scene.Types.CreateIntentTriggerResponse>
+  /** 
+   * 查询触发器列表
+  */
+  listIntentTriggers(body: Scene.Types.ListIntentTriggersRequest, options: Client.HttpOpts): Promise<Scene.Types.ListIntentTriggersResponse>
+  /** 
+   * 更新触发器
+  */
+  updateIntentTrigger(body: Scene.Types.UpdateIntentTriggerRequest, options: Client.HttpOpts): Promise<Scene.Types.UpdateIntentTriggerResponse>
+  /** 
+   * 删除触发器
+  */
+  deleteIntentTrigger(body: Scene.Types.DeleteRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 创建词槽
+  */
+  createSlot(body: Scene.Types.CreateSlotRequest, options: Client.HttpOpts): Promise<Scene.Types.CreateSlotResponse>
+  /** 
+   * 更新词槽
+  */
+  updateSlot(body: Scene.Types.UpdateSlotRequest, options: Client.HttpOpts): Promise<Scene.Types.UpdateSlotResponse>
+  /** 
+   * 删除词槽
+  */
+  deleteSlot(body: Scene.Types.DeleteRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 查询词槽
+  */
+  getSlot(body: Scene.Types.GetSlotRequest, options: Client.HttpOpts): Promise<Scene.Types.GetSlotResponse>
+  /** 
+   * 查询词槽列表
+  */
+  listSlots(body: Scene.Types.ListSlotsRequest, options: Client.HttpOpts): Promise<Scene.Types.ListSlotsResponse>
+  /** 
+   * 创建消息发送单元
+  */
+  createInformBlock(body: Scene.Types.CreateInformBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.CreateInformBlockResponse>
+  /** 
+   * 更新消息发送单元
+  */
+  updateInformBlock(body: Scene.Types.UpdateInformBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.UpdateInformBlockResponse>
+  /** 
+   * 查询消息发送单元
+  */
+  getInformBlock(body: Scene.Types.GetInformBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.GetInformBlockResponse>
+  /** 
+   * 创建单元内容回复
+  */
+  createBlockResponse(body: Scene.Types.CreateBlockResponseRequest, options: Client.HttpOpts): Promise<Scene.Types.CreateBlockResponseResponse>
+  /** 
+   * 更新单元内容回复
+  */
+  updateBlockResponse(body: Scene.Types.UpdateBlockResponseRequest, options: Client.HttpOpts): Promise<Scene.Types.UpdateBlockResponseResponse>
+  /** 
+   * 更新单元内容回复
+  */
+  deleteBlockResponse(body: Scene.Types.DeleteRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 查询任务待审核消息列表
+  */
+  listIntentTriggerLearnings(body: Scene.Types.ListIntentTriggerLearningsRequest, options: Client.HttpOpts): Promise<Scene.Types.ListIntentTriggerLearningsResponse>
+  /** 
+   * 删除任务待审核消息
+  */
+  deleteIntentTriggerLearning(body: Scene.Types.DeleteRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 创建询问填槽单元
+  */
+  createRequestBlock(body: Scene.Types.CreateRequestBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.CreateRequestBlockResponse>
+  /** 
+   * 更新询问填槽单元
+  */
+  updateRequestBlock(body: Scene.Types.UpdateRequestBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.UpdateRequestBlockResponse>
+  /** 
+   * 查询单元列表
+  */
+  listBlocks(body: Scene.Types.ListBlocksRequest, options: Client.HttpOpts): Promise<Scene.Types.ListBlocksResponse>
+  /** 
+   * 创建单元关系
+  */
+  createBlockRelation(body: Scene.Types.CreateBlockRelationRequest, options: Client.HttpOpts): Promise<Scene.Types.CreateBlockRelationResponse>
+  /** 
+   * 查询询问填槽单元
+  */
+  getRequestBlock(body: Scene.Types.GetRequestBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.GetRequestBlockResponse>
+  /** 
+   * 删除单元
+  */
+  deleteOneBlock(body: Scene.Types.DeleteRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 删除单元关系
+  */
+  deleteBlockRelation(body: Scene.Types.DeleteRequest, options: Client.HttpOpts): Promise<{}>
+  /** 
+   * 创建意图终点单元
+  */
+  createEndBlock(body: Scene.Types.CreateEndBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.CreateEndBlockResponse>
+  /** 
+   * 更新意图终点单元
+  */
+  updateEndBlock(body: Scene.Types.UpdateEndBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.UpdateEndBlockResponse>
+  /** 
+   * 查询意图终点单元
+  */
+  getEndBlock(body: Scene.Types.GetEndBlockRequest, options: Client.HttpOpts): Promise<Scene.Types.GetEndBlockResponse>
 }
 
 
@@ -442,7 +584,7 @@ declare namespace Dialogue {
   }
   // 获取用户输入联想 响应数据
   export interface GetUserInputSugResponse {
-    user_suggestions: Array<{suggestion: string}>
+    user_suggestions: Array<{ suggestion: string }>
   }
   export import Types = Dialogue;
 }
@@ -678,7 +820,7 @@ declare namespace Knowledge {
     }
   }
   // 更新知识点分类 响应数据
-  export interface UpdateKnowledgeTagResponse extends CreateKnowledgeTagResponse {}
+  export interface UpdateKnowledgeTagResponse extends CreateKnowledgeTagResponse { }
 
   interface BatchKnowledgeItem extends KnowledgeItem {
     user_attribute_group_answers: UserAttributeGroupAnswer
@@ -851,7 +993,7 @@ declare namespace Dictionary {
     name: string
   }
   // 查询全部实体概要 请求数据
-  export interface ListEntitiesRequest extends PageList {}
+  export interface ListEntitiesRequest extends PageList { }
   // 查询全部实体概要 响应数据
   export interface ListEntitiesResponse {
     entities: Entity[]
@@ -865,17 +1007,17 @@ declare namespace Dictionary {
     term_item: TermItem
   }
   // 创建专有词汇 响应数据
-  export interface CreateTermResponse extends CreateTermRequest {}
+  export interface CreateTermResponse extends CreateTermRequest { }
 
   // 更新专有词汇 请求数据
-  export interface UpdateTermRequest  {
+  export interface UpdateTermRequest {
     term_item: TermItem
   }
   // 更新专有词汇 响应数据
-  export interface UpdateTermResponse extends UpdateTermRequest {}
+  export interface UpdateTermResponse extends UpdateTermRequest { }
 
   // 查询专有词汇列表 请求数据
-  export interface ListTermRequest extends PageList {}
+  export interface ListTermRequest extends PageList { }
   // 查询专有词汇列表 响应数据
   export interface ListTermResponse extends CreateTermRequest {
     page_count: number
@@ -952,4 +1094,398 @@ declare namespace Dictionary {
     synonyms: string[]
   }
   export import Types = Dictionary
+}
+
+// 任务类-类型生命
+declare namespace Scene {
+  type intent_switch_mode = "INTENT_SWITCH_MODE_NOTSET" | "INTENT_SWITCH_MODE_SWITCH" | "INTENT_SWITCH_MODE_STAY"
+  export interface DeleteRequest {
+    id: number
+  }
+  export interface CreateSceneData {
+    intent_switch_mode: intent_switch_mode,
+    name: string,
+    smart_slot_filling_threshold?: number,
+    description?: string
+  }
+  export interface CreateSceneBody {
+    scene: CreateSceneBody
+  }
+  export interface SceneData {
+    description: string,
+    intent_switch_mode: intent_switch_mode,
+    id: number,
+    smart_slot_filling_threshold: number,
+    name: string
+  }
+  export interface SceneBody {
+    scene: SceneData
+  }
+  export interface DeleteSceneBody {
+    id: number
+  }
+  export interface CreateIntentRequest {
+    intent: CreateIntentData;
+  }
+  export interface IntentResponse {
+    intent: Intent
+  }
+
+  export interface UpdateIntentRequest {
+    intent: {
+      lifespan_mins: number;
+      id: number;
+      name: string;
+    }
+  }
+  export interface CreateIntentData {
+    scene_id: number;
+    name: string;
+    lifespan_mins: number;
+  }
+  export interface Intent {
+    scene_id: number;
+    status: boolean;
+    lifespan_mins: number;
+    id: number;
+    name: string;
+  }
+  export interface UpdateIntentStatusRequest {
+    status: boolean;
+    first_block_id: number;
+    intent_id: number;
+  }
+  export interface UpdateIntentStatusResponse extends UpdateIntentStatusRequest {
+    update_time: string
+  }
+  export interface CreateIntentTriggerRequest {
+    intent_trigger: PostIntentTrigger
+  }
+  export interface CreateIntentTriggerResponse {
+    intent_trigger: IntentTriggerData
+  }
+  type IntentTriggerType = "TRIGGER_TYPE_ERROR" | "TRIGGER_TYPE_EXACT_MATCH_KEYWORD" | "TRIGGER_TYPE_INCLUDE_KEYWORD" | "TRIGGER_TYPE_SENTENCE"
+  export interface PostIntentTrigger {
+    text: string;
+    intent_id: number;
+    type: IntentTriggerType;
+  }
+  export interface IntentTriggerData extends PostIntentTrigger {
+    id: number
+  }
+  export interface UpdateIntentTriggerRequest {
+    intent_trigger: {
+      text: string;
+      id: number
+    }
+  }
+  export interface UpdateIntentTriggerResponse extends CreateIntentTriggerResponse { }
+  export interface ListIntentTriggersRequest {
+    intent_id: number;
+    page: number;
+    page_size: number;
+  }
+  export interface ListIntentTriggersResponse {
+    intent_triggers: IntentTriggerData[]
+  }
+  export interface CreateSlotRequest {
+    slot: {
+      scene_id: number
+      name: string
+      query_slot_filling?: boolean
+    }
+  }
+  export interface CreateSlotResponse {
+    slot: {
+      scene_id: number
+      name: string
+      query_slot_filling: boolean
+      id: number
+    }
+  }
+  export interface UpdateSlotRequest {
+    slot: {
+      query_slot_filling?: boolean;
+      id: number;
+      name?: string;
+    }
+  }
+  export interface UpdateSlotResponse extends CreateSlotResponse { }
+  export interface GetSlotRequest {
+    id: number
+  }
+  export interface GetSlotResponse extends CreateSlotResponse { }
+  export interface ListSlotsRequest {
+    scene_id: number;
+    page: number;
+    page_size: number;
+  }
+  export interface ListSlotsResponse {
+    slots: {
+      id: number;
+      name: string;
+    }[]
+  }
+  type BlockMode = "RESPONSE_ERROR" | "RESPONSE_RANDOM" | "RESPONSE_ALL" | "RESPONSE_LOOP"
+  export interface CreateInformBlockRequest {
+    block: {
+      intent_id: number;
+      name: string;
+      mode: BlockMode;
+    }
+  }
+  export interface CreateInformBlockResponse {
+    block: Block
+  }
+  export interface Block {
+    responses: MsgBody[];
+    connection: Connection;
+    mode: string;
+    intent_id: number;
+    id: number;
+    name: string;
+  }
+
+  export interface Connection {
+    from_block_id: number;
+    to_block_id: number;
+    condition: Condition;
+  }
+
+  export interface Condition {
+    in_entity: InEntity;
+  }
+
+  export interface InEntity {
+    id: number;
+  }
+  export interface UpdateInformBlockRequest {
+    block: {
+      mode: BlockMode;
+      id: number;
+      name: string;
+    }
+  }
+  export interface UpdateInformBlockResponse extends CreateInformBlockResponse { }
+  export interface GetInformBlockRequest {
+    id: number
+  }
+  export interface GetInformBlockResponse extends CreateInformBlockResponse { }
+
+  export interface CreateBlockResponseRequest {
+    response: {
+      block_id: number
+      response: MsgBody
+    }
+  }
+  export interface CreateBlockResponseResponse {
+    response: {
+      id: number
+      block_id: number
+      response: MsgBody
+    }
+  }
+  export interface UpdateBlockResponseRequest {
+    response: {
+      id: number
+      response: MsgBody
+    }
+  }
+  export interface UpdateBlockResponseResponse extends CreateBlockResponseResponse { }
+  export interface ListIntentTriggerLearningsRequest {
+    page: number;
+    page_size: number
+  }
+  export interface ListIntentTriggerLearningsResponse {
+    query_items: IntentTriggerLearningQueryItem[]
+  }
+  export interface IntentTriggerLearningQueryItem {
+    content: string;
+    id: number;
+    recommend_intent: RecommendIntent;
+  }
+
+  export interface RecommendIntent {
+    intent_id: number;
+    score: number;
+    intent_name: string;
+  }
+  export interface CreateRequestBlockRequestBlock {
+    name: string;
+    default_slot_value?: string;
+    slot_filling_when_asked?: boolean;
+    slot_id: number;
+    mode: BlockMode;
+    request_count?: number;
+    intent_id: number;
+  }
+  export interface CreateRequestBlockRequest {
+    block: CreateRequestBlockRequestBlock
+  }
+  export interface UpdateRequestBlockRequestBlock extends CreateRequestBlockRequestBlock {
+    id: number
+  }
+  export interface CreateRequestBlockResponse {
+    block: {
+      name: string;
+      default_slot_value: string;
+      slot_filling_when_asked: boolean;
+      connections: Connection[];
+      slot_id: number;
+      mode: BlockMode;
+      request_count: number;
+      intent_id: number;
+      id: number;
+      responses: MsgBody[];
+    }
+  }
+  export interface UpdateRequestBlockRequest {
+    block: UpdateRequestBlockRequestBlock
+  }
+  export interface UpdateRequestBlockResponse extends CreateRequestBlockResponse {
+  }
+  export interface ListBlocksRequest {
+    intent_id: number;
+    page: number;
+    page_size: number;
+  }
+  export interface ListBlocksResponse {
+    blocks: ListBlockItem[]
+  }
+  export type BlockType = "SCENE_BLOCK_TYPE_DEFAULT" | "SCENE_BLOCK_TYPE_INFORM" | "SCENE_BLOCK_TYPE_REQUEST" | "SCENE_BLOCK_TYPE_END"
+  export interface ListBlockItem {
+    type: BlockType;
+    id: number;
+    name: string;
+  }
+  export interface CreateBlockRelationRequest {
+    relation: BlockRelation
+  }
+  export interface CreateBlockRelationResponse {
+    relation: BlockRelationData
+  }
+  export interface BlockRelation {
+    connection: BlockConnection;
+    intent_id: number;
+  }
+  export interface BlockRelationData extends BlockRelation {
+    id: number
+  }
+
+  export interface BlockConnection {
+    from_block_id: number;
+    to_block_id: number;
+    condition: ConditionInEntity
+    | ConditionNotInEntity
+    | ConditionEqualTo
+    | ConditionNotEqualTo
+    | ConditionDefault
+    | ConditionLessThanOrEqualTo
+    | ConditionLessThan
+    | ConditionGreaterThanOrEqualTo
+    | ConditionGreaterThan
+    | ConditionDismatchRegex
+    | ConditionMatchRegex
+    | ConditionExclude
+    | ConditionInclude
+  }
+
+  export interface ConditionInEntity {
+    in_entity: {
+      id: number;
+    }
+  }
+  export interface ConditionNotInEntity {
+    not_in_entity: {
+      id: number;
+    }
+  }
+  export interface ConditionEqualTo {
+    equal_to: {
+      value: string
+    }
+  }
+  export interface ConditionNotEqualTo {
+    not_equal_to: {
+      value: string
+    }
+  }
+  export interface ConditionDefault {
+    default: object
+  }
+  export interface ConditionLessThanOrEqualTo {
+    less_than_or_equal_to: {
+      value: string
+    }
+  }
+  export interface ConditionLessThan {
+    less_than: {
+      value: string
+    }
+  }
+  export interface ConditionGreaterThanOrEqualTo {
+    greater_than_or_equal_to: {
+      value: string
+    }
+  }
+  export interface ConditionGreaterThan {
+    greater_than: {
+      value: string
+    }
+  }
+  export interface ConditionDismatchRegex {
+    dismatch_regex: {
+      regex: string
+    }
+  }
+  export interface ConditionMatchRegex {
+    match_regex: {
+      regex: string
+    }
+  }
+  export interface ConditionExclude {
+    exclude: {
+      value: string
+    }
+  }
+  export interface ConditionInclude {
+    include: {
+      value: string
+    }
+  }
+  export interface GetRequestBlockRequest {
+    id: number
+  }
+  export interface GetRequestBlockResponse extends CreateRequestBlockResponse { }
+
+  export type BlockAction = { specified: object } | { last: object } | { end: object }
+  export interface EndBlock {
+    action: BlockAction;
+    intent_id: number;
+    name: string;
+    slot_memorizing: boolean;
+  }
+  export interface CreateEndBlockRequest {
+    block: EndBlock
+  }
+  export interface EndBlockAll extends EndBlock {
+    id: number
+  }
+  export interface CreateEndBlockResponse {
+    block: EndBlockAll
+  }
+
+  export interface UpdateEndBlockRequest {
+    block: {
+      action:          BlockAction;
+      slot_memorizing: boolean;
+      id:              number;
+      name:            string;
+    }
+  }
+  export interface UpdateEndBlockResponse extends CreateEndBlockResponse { }
+
+  export interface GetEndBlockRequest { id: number }
+  export interface GetEndBlockResponse extends CreateEndBlockResponse {  }
+  export import Types = Scene
 }

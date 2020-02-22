@@ -93,7 +93,7 @@ describe("词库管理类 API Test", async () => {
     it("createEnumerationEntity（创建枚举实体） should ok", async () => {
         let response = await client.createEnumerationEntity({
             enum_entity: {
-                name: "enum_entity"
+                name: "enum_entity: " + Date.parse(new Date())
             }
         });
         createdEnumEntity = response.enum_entity;
